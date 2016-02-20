@@ -119,6 +119,51 @@
                     <executable>true</executable>
                 </configuration>
             </plugin>
+            <!-- Install Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <groupId>com.dedeler</groupId>
+                    <artifactId>tweetguess-data</artifactId>
+                    <version>1.0</version>
+                    <packaging>jar</packaging>
+                    <file>${basedir}/target/tweetguess-data.jar</file>
+                    <generatePom>true</generatePom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>install-model-jar</id>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <phase>install</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Jar Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>only-library</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <classifier>data</classifier>
+                            <includes>
+                                <include>**/model/**</include>
+                                <include>**/repository/**</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
