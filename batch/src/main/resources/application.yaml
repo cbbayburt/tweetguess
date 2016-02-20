@@ -16,7 +16,7 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
   datasource:
     testOnBorrow: true
-    url: jdbc:h2:file:~/tweetguessdb
+    url: jdbc:h2:tcp://localhost:9092/mem:tweetguessdb
     username: sa
     password:
     driverClassName: org.h2.Driver
@@ -35,5 +35,3 @@ spring:
   profiles: development
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: create-drop
