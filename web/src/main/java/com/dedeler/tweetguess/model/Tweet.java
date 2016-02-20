@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -16,20 +17,13 @@ import java.time.LocalDate;
 public class Tweet {
 
     @Id
-    private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "personId")
-    private Person person;
-
-    @ManyToOne
-    @JoinColumn(name = "categoryId")
-    private Category category;
-
-    private LocalDate createdTime;
-    private Integer retweetCnt;
-    private Integer favouriteCnt;
-    private String lang;
+    private Long id;
+    private Date createdAt;
     private String text;
+    private Integer favoriteCount;
+    private Long retweetCount;
+    private String langId;
+    private String categoryId;
+    private Long personId;
 
 }

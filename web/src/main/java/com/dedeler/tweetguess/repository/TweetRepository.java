@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
  * Created by Aykut on 20.02.2016.
  */
 @Repository
-public interface TweetRepository extends CrudRepository<Tweet, Integer> {
+public interface TweetRepository extends CrudRepository<Tweet, Long> {
 }

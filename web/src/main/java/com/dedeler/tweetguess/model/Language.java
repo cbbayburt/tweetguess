@@ -10,12 +10,11 @@ import javax.persistence.Id;
  */
 @Data
 @Entity
-public class Category {
+public class Language {
 
     @Id
-    private String slug;
+    private String code;
     private String name;
-    private Integer size;
-    private String languageId;
+    private String status;
 
 }

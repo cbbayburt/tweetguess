@@ -15,18 +15,18 @@ import javax.persistence.OneToOne;
 public class Person {
 
     @Id
-    private Integer id;
-
+    private Long id;
     private String name;
-    private Integer rank;
-    private Integer tweetCnt;
-    private Integer followerCnt;
     private String screenName;
-
-    @OneToOne
-    @JoinColumn(name = "categoryId")
-    private Category category;
-    private String lang;
-    private Integer fetchedTweetCnt;
+    private String location;
+    private String description;
+    private String profileImageUrl;
+    private String url;
+    private Boolean isProtected;
+    private Integer followersCount;
+    private Integer friendsCount;
+    private Integer favouritesCount;
+    private String langId;
+    private String categoryId;
 
 }
