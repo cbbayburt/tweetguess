@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!---
+    To change log level at runtime possibilities are:
+
+    ** Add external config file with monitorInterval parameter
+        -Dlog4j.configurationFile=path/to/log4j2.xml
+        -> monitorInterval <Configuration monitorInterval="10">
+
+    ** Programmatically change log level
+        Configurator.setLevel("com.example.Foo", Level.DEBUG);
+
+        // You can also set the root logger:
+        Configurator.setRootLevel(Level.DEBUG);
+
+    ** Programmatically load config file
+        ((org.apache.logging.log4j.core.LoggerContext) LogManager.getContext(false)).reconfigure();
+-->
+<Configuration status="INFO" monitorInterval="30">
+    <Appenders>
+        <Console name="CA" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-4r %d{dd MMM yyyy HH:mm:ss,SSS} [%t] %highlight{%-5p} %c %x - %m%n" />
+        </Console>
+        <!-- All logs from all classes will be appended to this file -->
+        <RollingFile name="CRFA" fileName="logs/tweetguess.log" filePattern="logs/tweetguess.%d{yyyyMMdd}.log">
+            <PatternLayout pattern="%-4r %d{dd MMM yyyy HH:mm:ss,SSS} [%t] %-5p %c %x - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="3" />
+        </RollingFile>
+        <!-- Only errors from all classes will be appended to this file -->
+        <File name="ERRORFA" fileName="logs/tweetguess-error.log">
+            <PatternLayout pattern="%-4r %d{dd MMM yyyy HH:mm:ss,SSS} [%t] %-5p %c %x - %m%n" />
+        </File>
+        <!-- All logs from aspect logger will be appended to this file -->
+        <RollingFile name="ASPECT_LOGGER" fileName="logs/tweetguess-aspect.log" filePattern="logs/tweetguess-aspect.%d{yyyyMMdd}.log">
+            <PatternLayout pattern="%-4r %d{dd MMM yyyy HH:mm:ss,SSS} [%t] %-5p %c %x - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="3" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="warn">
+            <AppenderRef ref="CA" />
+            <AppenderRef ref="CRFA" />
+            <AppenderRef ref="ERRORFA" level="error" />
+        </Root>
+        <Logger name="ASPECT_LOGGER" level="debug">
+            <AppenderRef ref="ASPECT_LOGGER" />
+        </Logger>
+        <Logger name="org" level="info" />
+    </Loggers>
+</Configuration>

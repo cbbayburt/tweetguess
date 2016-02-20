@@ -1,0 +1,41 @@
+# ===============================
+# = APPLICATION
+# ===============================
+spring:
+  application:
+    name: tweetguess
+  thymeleaf:
+    cache: true
+  messages:
+    basename: i18n/messages
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    testOnBorrow: true
+    url: jdbc:h2:file:~/tweetguessdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+
+# ===============================
+# = SERVER
+# ===============================
+server:
+  port: 8081
+
+# ===============================
+# = DEVELOPMENT
+# ===============================
+---
+spring:
+  profiles: development
+  thymeleaf:
+    cache: false
+  jpa:
+    show-sql: true
