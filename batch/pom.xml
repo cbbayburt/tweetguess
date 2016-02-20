@@ -16,6 +16,7 @@
         <lombok.version>1.16.6</lombok.version>
         <log4j.version>2.4.1</log4j.version>
         <twitter4j.version>4.0.4</twitter4j.version>
+        <dozer.version>5.5.1</dozer.version>
         <h2.version>1.4.191</h2.version>
     </properties>
 
@@ -45,6 +46,11 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
@@ -68,6 +74,27 @@
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-core</artifactId>
             <version>${twitter4j.version}</version>
+        </dependency>
+
+        <!-- Dozer -->
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer.version}</version>
+        </dependency>
+
+        <!-- H2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+        </dependency>
+
+        <!-- Local -->
+        <dependency>
+            <groupId>com.dedeler</groupId>
+            <artifactId>tweetguess-data</artifactId>
+            <version>1.0</version>
         </dependency>
 
     </dependencies>
