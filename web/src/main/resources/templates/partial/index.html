@@ -1,0 +1,31 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body id="page-top" class="index">
+<!-- Header -->
+<header th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="img-responsive" src="img/profile.png" alt=""/>
+                <div class="intro-text">
+                    <span class="name">Tweet<span class="text-info">Guess</span></span>
+                    <span class="skills">A Twitter <i class="fa fa-twitter"></i> Quiz Game</span>
+                    <hr class="star-light"/>
+                    <form action="#">
+                        <div class="row control-group text-center">
+                            <div class="form-group col-xs-12 col-sm-4 col-sm-offset-4">
+                                <input ng-model="user.username" class="form-control input-lg" type="text" id="username" name="username" placeholder="Your name, please" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-xs-12 col-sm-4 col-sm-offset-4">
+                                <button type="button" data-ng-click="startGame()" class="btn btn-info btn-lg btn-block">Start playing</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

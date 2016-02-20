@@ -527,3 +527,34 @@ body {
 .choice > .btn > p > span {
     color: #C1D3D4;
 }
+
+.btn.btn-success.disabled:hover,
+.btn.btn-success.disabled:active,
+.btn.btn-success.disabled:focus,
+.btn.btn-success[disabled]:hover,
+.btn.btn-success[disabled]:active,
+.btn.btn-success[disabled]:focus,
+.btn.btn-success {
+    background-color: #4DD067;
+    border-color: #4DD067;
+}
+
+.btn.btn-success:hover {
+    background-color: #39A04D;
+    border-color: #2b7c23;
+}
+
+.btn.btn-success:active {
+    background-color: #2b7c23;
+    border-color: #1a4d16;
+}
+
+.btn.btn-success:focus {
+    background-color: #39A04D;
+    border-color: #1a4d16;
+}
+
+.jumbotron {
+    padding-left: 20px;
+    padding-right: 20px;
+}

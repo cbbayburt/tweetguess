@@ -1,8 +1,8 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body id="page-top" class="index">
     <!-- Header -->
-    <header layout:fragment="content" data-ng-app="tweetguess">
-        <div class="container" data-ng-controller="categoryController">
+    <header th:fragment="content">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-text">
@@ -10,9 +10,9 @@
                         <div style="height: 60px;"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-                                <button class="btn btn-info btn-lg btn-block">Music</button>
-                                <button class="btn btn-info btn-lg btn-block">Politics</button>
-                                <button class="btn btn-info btn-lg btn-block">Celebrities</button>
+                                <button data-ng-click="selectCategory('music')" class="btn btn-info btn-lg btn-block">Music</button>
+                                <button data-ng-click="selectCategory('politics')" class="btn btn-info btn-lg btn-block">Politics</button>
+                                <button data-ng-click="selectCategory('celebs')" class="btn btn-info btn-lg btn-block">Celebrities</button>
                                 <br/>
                                 <a href="#">More...</a><br/>
                                 US | <a href="#">Change region</a>
