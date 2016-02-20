@@ -14,4 +14,15 @@ public class IndexController {
         return "index";
     }
 
+    @RequestMapping("/game")
+    public void game() {}
+
+    @RequestMapping("/loading")
+    public void loading() {}
+
+    @RequestMapping("/question")
+    public void question() {}
+
+    @RequestMapping("/leaderboard")
+    public void leaderboard() {}
 }
