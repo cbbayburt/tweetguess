@@ -1,6 +1,6 @@
 var app = angular.module('tweetguess', ['ngRoute']);
 
-app.controller('mainController', function($scope, $timeout, $http) {
+app.controller('mainController', function($scope, $timeout, $http, $anchorScroll) {
     $scope.view = 'index';
 
     $scope.user = { username: '' };
@@ -9,11 +9,13 @@ app.controller('mainController', function($scope, $timeout, $http) {
     $scope.startGame = function() {
         $http.post('initgame', $scope.user).then(function() {
             $scope.view = 'category';
+            $anchorScroll('page-top');
         });
     };
 
     $scope.selectCategory = function(category) {
         $scope.view = 'loading';
+        $anchorScroll('page-top');
 
         $scope.prefs.category = category;
         $scope.getQuestion();
@@ -25,6 +27,7 @@ app.controller('mainController', function($scope, $timeout, $http) {
             $scope.question.answered = false;
             $scope.choices = ['', '', '', ''];
             $scope.view = 'question';
+            $anchorScroll('page-top');
         });
     };
 
