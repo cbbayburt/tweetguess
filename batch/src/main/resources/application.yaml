@@ -1,0 +1,39 @@
+# ===============================
+# = APPLICATION
+# ===============================
+spring:
+  application:
+    name: tweetguess-batch
+  profiles:
+    active: development
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  datasource:
+    testOnBorrow: true
+    url: jdbc:h2:file:~/tweetguessdb
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+
+twitter:
+  consumer-key: {consumer-key}
+  consumer-secret: {consumer-secret}
+  access-token: {access-token}
+  access-token-secret: {access-token-secret}
+
+# ===============================
+# = DEVELOPMENT
+# ===============================
+---
+spring:
+  profiles: development
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
