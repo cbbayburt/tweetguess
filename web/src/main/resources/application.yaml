@@ -4,6 +4,8 @@
 spring:
   application:
     name: tweetguess
+  profiles:
+    active: development
   thymeleaf:
     cache: true
   messages:
@@ -35,7 +37,15 @@ server:
 ---
 spring:
   profiles: development
+  datasource:
+    initialize: true
+    data: classpath*:data/data.sql
   thymeleaf:
     cache: false
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
