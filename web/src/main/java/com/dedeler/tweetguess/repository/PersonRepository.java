@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
-    List<Person> findTop3ByCategory(Category category);
+    List<Person> findByCategory(Category category);
 
 }

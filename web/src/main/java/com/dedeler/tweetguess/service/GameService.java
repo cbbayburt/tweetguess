@@ -38,27 +38,37 @@ public class GameService {
     private QuestionRepository questionRepository;
 
     public void save(Game game) {
+        questionRepository.save(game.getQuestionList());
         gameRepository.save(game);
     }
 
     public Game createNewGame(GamePreferences gamePreferences, User user) {
-        List<Tweet> tweetList = tweetRepository.findFirst10ByCategory(gamePreferences.getCategory());
+        Integer tweetCount = tweetRepository.countByCategory(gamePreferences.getCategory());
+        List<Tweet> tweetList = tweetRepository.getGeoRandomizedTweetsByCategory(gamePreferences.getCategory().getId(), user.getUsername(), getRandomNumbers(tweetCount));
+        List<Person> personList = personRepository.findByCategory(gamePreferences.getCategory());
 
         List<Question> questionList = new ArrayList<>();
         Map<Integer, Integer> answerMap = new HashMap<>();
+        Random random = new Random();
         for(int i=0; i<QUESTIONS_PER_GAME; i++) {
-            List<Person> personList = personRepository.findTop3ByCategory(gamePreferences.getCategory());
-            personList.add(tweetList.get(i).getPerson());
-            Collections.shuffle(personList);
-            Integer correctAnswerIndex = personList.indexOf(tweetList.get(i).getPerson());
-            questionList.add(new Question(null, tweetList.get(i), i, personList, null));
+            Person correctPerson = tweetList.get(i).getPerson();
+            List<Person> choiceList = new ArrayList<>();
+            choiceList.add(correctPerson);
+            while(choiceList.size() < 4 && choiceList.size()!=personList.size()) {
+                Integer index = random.nextInt(personList.size()-1);
+                if(!choiceList.contains(personList.get(index))) {
+                    choiceList.add(personList.get(index));
+                }
+            }
+
+            Collections.shuffle(choiceList);
+            Integer correctAnswerIndex = choiceList.indexOf(tweetList.get(i).getPerson());
+            questionList.add(new Question(null, tweetList.get(i), i, choiceList, null));
             answerMap.put(i, correctAnswerIndex);
         }
 
         LocalDate firstDayOfWeek = LocalDateTime.now().with(DayOfWeek.MONDAY).toLocalDate();
         Game game = new Game(null, LocalDateTime.now(), null, user, gamePreferences.getCategory(), gamePreferences.getLang(), questionList, answerMap, null, 0, 0, firstDayOfWeek);
-        questionRepository.save(questionList);
-        gameRepository.save(game);
 
         return game;
     }
@@ -97,10 +107,22 @@ public class GameService {
         return new Leaderboard(scores, null, null);
     }
 
-    public static double getRandom(Random r, double geoSeed) {
+    public static int getRandom(Random r, double geoSeed) {
         geoSeed /= 3;
-        double p = 1.0 / ((double) geoSeed);
+        double p = 1.0 / ((int) geoSeed);
         return (int) (Math.ceil(Math.log(r.nextDouble()) / Math.log(1.0 - p)));
+    }
+
+    private List<Integer> getRandomNumbers(Integer maxNumber) {
+        Random random = new Random();
+        List<Integer> randomNumbers = new ArrayList<>();
+        while(randomNumbers.size() != QUESTIONS_PER_GAME) {
+            Integer num = getRandom(random, maxNumber);
+            if(num <= maxNumber && !randomNumbers.contains(num)) {
+                randomNumbers.add(num);
+            }
+        }
+        return randomNumbers;
     }
 
 }
