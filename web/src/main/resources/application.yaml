@@ -37,6 +37,9 @@ server:
 ---
 spring:
   profiles: development
+  datasource:
+    initialize: true
+    data: classpath*:data/data.sql
   thymeleaf:
     cache: false
   jpa:
