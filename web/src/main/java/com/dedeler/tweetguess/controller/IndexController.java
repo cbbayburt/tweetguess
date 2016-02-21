@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,7 +24,7 @@ public class IndexController {
 
     public static final long QUESTION_TIME_LIMIT_MILLIS = 10000l;
     public static final int QUESTION_MAX_SCORE = 500;
-    public static final int QUESTIONS_PER_GAME = 10;
+    public static final int QUESTIONS_PER_GAME = 3;
 
     @Autowired
     private GameService gameService;
@@ -107,11 +105,14 @@ public class IndexController {
             return null;
 
         int correct = game.getAnswerMap().get(game.getCurrentQuestion().getIndex());
+
+        int score = 0;
         if(answer.getChoice() == correct) {
+            score = calculateScore(time);
             game.setCorrectAnswers(game.getCorrectAnswers() + 1);
-            game.setScore(game.getScore() + calculateScore(time));
+            game.setScore(game.getScore() + score);
         }
-        return new AnswerResult(answer.getChoice(), correct);
+        return new AnswerResult(answer.getChoice(), correct, score);
     }
 
     private int calculateScore(long time) {

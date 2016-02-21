@@ -585,4 +585,9 @@ body {
     -ms-transition: none !important;
     -o-transition: none !important;
     transition: none !important;
-}?
+}
+
+.question-score {
+    color: #efefef;
+    margin-left: 10px;
+}

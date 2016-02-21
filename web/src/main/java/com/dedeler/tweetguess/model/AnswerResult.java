@@ -14,4 +14,5 @@ import lombok.NoArgsConstructor;
 public class AnswerResult {
     private Integer userChoice;
     private Integer correctChoice;
+    private Integer score;
 }

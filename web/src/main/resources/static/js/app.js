@@ -38,6 +38,7 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
                 $scope.question.title = "Saving progress...";
             else
                 $scope.question.title = "Next question...";
+            $scope.question.score = 0;
         }
         $http.post('getquestion', $scope.prefs).then(function(res){
             $scope.question = res.data;
@@ -59,12 +60,13 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
         if($scope.question.answered) return;
         $scope.question.answered = true;
         $scope.question.wait = true;
-        $scope.question.title = "Checking...";
         $scope.stopTimer();
         if(choice >= 0) {
+            $scope.question.title = "Checking...";
             $http.post('answer', {choice: choice}).then(function (res) {
                 $scope.question.wait = false;
                 if(res.data.userChoice == res.data.correctChoice) {
+                    $scope.question.score = res.data.score > 0 ? res.data.score : 0;
                     $scope.question.title = "Correct!";
                 } else {
                     $scope.question.title = "Wrong!";
@@ -77,6 +79,7 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
                 }, 2000);
             });
         } else {
+            $scope.question.title = "Time is over."
             $timeout(function () {
                 $scope.getQuestion();
             }, 2000);
