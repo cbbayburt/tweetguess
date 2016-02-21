@@ -35,7 +35,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
             $scope.showAllCats = false;
             $scope.view = 'category';
         });
-    }
+    };
 
     $scope.selectCategory = function (category) {
         $scope.loadTitle = "Starting a new game...";

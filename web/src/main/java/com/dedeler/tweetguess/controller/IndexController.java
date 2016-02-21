@@ -61,9 +61,6 @@ public class IndexController {
     @ResponseBody
     public LangCategory initGame(@RequestBody User user, @ModelAttribute GamePreferences prefs, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(!session.isNew()) {
-            model.addAttribute(game());
-        }
 
         userService.save(user);
         model.addAttribute(user);
