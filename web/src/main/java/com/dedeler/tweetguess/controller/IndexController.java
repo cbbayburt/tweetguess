@@ -34,18 +34,26 @@ public class IndexController {
         return new User();
     }
 
+    @ModelAttribute
+    GamePreferences gamePreferences() {
+        return new GamePreferences(null, new Language("en", "EN", "production"));
+    }
+
     @RequestMapping("/")
     public String index(){
         return "index";
     }
 
-    @RequestMapping(value = "/initgame", method = RequestMethod.POST)
+    @RequestMapping("/initgame")
     @ResponseBody
-    public LangCategory initGame(@RequestBody User user, Model model, HttpServletRequest request) {
+    public LangCategory initGame(@RequestBody User user, @ModelAttribute GamePreferences prefs, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(!session.isNew()) {
             model.addAttribute(game());
         }
+
+        //Get categories for lang: prefs.getLanguage
+
         model.addAttribute(user);
         return new LangCategory(Arrays.asList(
                 new Category("music", "Music", 20, "en"),
@@ -55,7 +63,19 @@ public class IndexController {
                 Arrays.asList(new Language("en", "EN", null), new Language("tr", "TR", null)));
     }
 
-    @RequestMapping(value = "/getquestion", method = RequestMethod.POST)
+    @RequestMapping("/selectregion")
+    public List<Category> selectRegion(@RequestBody Language lang, @ModelAttribute GamePreferences prefs) {
+        prefs.setLang(lang);
+
+        //Get categories for lang: lang
+        return Arrays.asList(
+                new Category("music", "Music", 20, "en"),
+                new Category("politics", "Politics", 20, "en"),
+                new Category("celebs", "Celebrities", 20, "en"),
+                new Category("movies", "Movies", 20, "en"));
+    }
+
+    @RequestMapping("/getquestion")
     @ResponseBody
     public Question getQuestion(@RequestBody GamePreferences preferences, @ModelAttribute Game game, Model model) {
         Question currentQuestion = game.getCurrentQuestion();
