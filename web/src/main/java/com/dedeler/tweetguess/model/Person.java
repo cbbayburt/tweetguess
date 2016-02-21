@@ -18,7 +18,7 @@ public class Person {
     private Long id;
     private String name;
     private String screenName;
-    private String profileImageUrl;
+    private String profileImageURL;
     private String url;
     private Boolean isProtected;
     private Integer followersCount;
