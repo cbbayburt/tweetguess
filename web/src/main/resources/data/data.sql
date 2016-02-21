@@ -62,4 +62,5 @@ insert into tweet (id, created_At, text, favorite_Count, retweet_Count, language
   values (13, null, 'tweet13', 100, 200, 'en', 1, 237448183);
 insert into tweet (id, created_At, text, favorite_Count, retweet_Count, language_Id, category_Id, person_Id)
   values (14, null, 'tweet14', 100, 200, 'en', 1, 237448183);
+
 commit;
