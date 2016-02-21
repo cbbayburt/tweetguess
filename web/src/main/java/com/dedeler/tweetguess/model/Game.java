@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -49,12 +50,6 @@ public class Game {
     private Integer correctAnswers;
     private Integer score;
 
-    @Transient
-    public static final long QUESTION_TIME_LIMIT_MILLIS = 10000l;
+    private LocalDate firstDayOfWeek;
 
-    @Transient
-    public static final int QUESTION_MAX_SCORE = 500;
-
-    @Transient
-    public static final int QUESTIONS_PER_GAME = 2;
 }

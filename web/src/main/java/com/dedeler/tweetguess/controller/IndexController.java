@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -52,8 +52,8 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model){
-        model.addAttribute("questionsPerGame", Game.QUESTIONS_PER_GAME);
-        model.addAttribute("timeLimitMillis", Game.QUESTION_TIME_LIMIT_MILLIS);
+        model.addAttribute("questionsPerGame", GameService.QUESTIONS_PER_GAME);
+        model.addAttribute("timeLimitMillis", GameService.QUESTION_TIME_LIMIT_MILLIS);
         return "index";
     }
 
@@ -91,8 +91,9 @@ public class IndexController {
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
 
-        if(currentQuestionIndex == Game.QUESTIONS_PER_GAME) {
-            //TODO: Persist score
+        if(currentQuestionIndex == GameService.QUESTIONS_PER_GAME) {
+            game.setEndTime(LocalDateTime.now());
+            gameService.save(game);
             return null;
         }
         currentQuestion = game.getQuestionList().get(currentQuestionIndex);
@@ -106,7 +107,7 @@ public class IndexController {
     @ResponseBody
     public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute Game game) {
         Long time = Instant.now().toEpochMilli() - game.getCurrentQuestion().getStartTime();
-        if(time > Game.QUESTION_TIME_LIMIT_MILLIS)
+        if(time > GameService.QUESTION_TIME_LIMIT_MILLIS)
             return null;
 
         int correct = game.getAnswerMap().get(game.getCurrentQuestion().getIndex());
@@ -121,21 +122,13 @@ public class IndexController {
     }
 
     private int calculateScore(long time) {
-        return (int)(Game.QUESTION_MAX_SCORE - (time * Game.QUESTION_MAX_SCORE / Game.QUESTION_TIME_LIMIT_MILLIS));
+        return (int)(GameService.QUESTION_MAX_SCORE - (time * GameService.QUESTION_MAX_SCORE / GameService.QUESTION_TIME_LIMIT_MILLIS));
     }
 
     @RequestMapping("/leaderboard")
     @ResponseBody
-    public Leaderboard getLeaderboard(@ModelAttribute Game game, @ModelAttribute User user, @ModelAttribute GamePreferences prefs) {
-        List<Score> ls = new ArrayList<>();
-        ls.add(new Score("asdx", false, 1, 123, 4567));
-        ls.add(new Score("wef", false, 2, 12, 4563));
-        ls.add(new Score("sdfnd", false, 3, 21, 4112));
-        ls.add(new Score(user.getUsername(), true, 4, game.getCorrectAnswers(), game.getScore()));
-        ls.add(new Score("tntrjthr", false, 5, 34, 3644));
-        ls.add(new Score("htejtr", false, 6, 24, 3278));
-
-        return new Leaderboard(ls, prefs.getCategory(), prefs.getLang());
+    public Leaderboard getLeaderboard(@ModelAttribute User user) {
+        return gameService.getWeeklyLeaderboard(user);
     }
 
 }

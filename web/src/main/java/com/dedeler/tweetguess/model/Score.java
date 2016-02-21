@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Score {
     private String username;
     private boolean user;
