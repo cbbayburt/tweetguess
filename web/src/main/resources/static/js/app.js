@@ -1,6 +1,6 @@
-var app = angular.module('tweetguess');
+var app = angular.module('tweetguess', []);
 
-app.controller('mainController', function ($scope, $timeout, $http, $anchorScroll, $interval) {
+app.controller('mainController', function ($scope, $timeout, $http, $anchorScroll, $interval, $location) {
     $scope.view = 'index';
 
     $scope.user = {username: ''};
@@ -8,8 +8,14 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     $scope.timer = {progress: 0, live: undefined, max: 30000};
     $scope.constants = {numQuestions: 10};
 
+    $scope.home = function() {
+        $location.hash('');
+        $scope.view = 'index';
+    };
+
     $scope.startGame = function () {
         $http.post('initgame', $scope.user).then(function (res) {
+            $location.hash('play');
             $scope.view = 'category';
             $scope.showAllCats = false;
             $scope.categories = res.data.categories;
@@ -32,6 +38,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.getQuestion = function () {
+        $scope.addUnloadEvent();
         if ($scope.question) {
             $scope.question.loading = true;
             if ($scope.question.index == $scope.constants.numQuestions - 1)
@@ -42,6 +49,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         }
         $http.post('getquestion', $scope.prefs).then(function (res) {
             if (res.data == '') {
+                $scope.removeUnloadEvent();
                 $scope.getLeaderboard();
                 return;
             }
@@ -88,6 +96,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.getLeaderboard = function () {
+        $location.hash('leaderboard');
         $scope.view = 'loading';
         $scope.loadTitle = "Loading leaderboard...";
         $http.get('leaderboard').then(function (res) {
@@ -120,6 +129,27 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         if (angular.isDefined($scope.timer.live)) {
             $interval.cancel($scope.timer.live);
             $scope.timer.live = undefined;
+        }
+    };
+
+    $scope.addUnloadEvent = function () {
+        if (window.addEventListener) {
+            window.addEventListener("beforeunload", handleUnloadEvent);
+        } else {
+            //For IE browsers
+            window.attachEvent("onbeforeunload", handleUnloadEvent);
+        }
+    };
+
+    function handleUnloadEvent(event) {
+        event.returnValue = "The game is still in progress.";
+    }
+
+    $scope.removeUnloadEvent = function () {
+        if (window.removeEventListener) {
+            window.removeEventListener("beforeunload", handleUnloadEvent);
+        } else {
+            window.detachEvent("onbeforeunload", handleUnloadEvent);
         }
     };
 

@@ -47,7 +47,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#" th:href="@{/}">TweetGuess</a>
+                <a class="navbar-brand" href="#" data-ng-click="home()">TweetGuess</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -57,13 +57,7 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="page-scroll">
-                        <a href="#portfolio">Leaderboard</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#about">About</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a href="#contact">Contact</a>
+                        <a href="#" data-ng-click="getLeaderboard()"><i class="fa fa-trophy"></i> Leaderboard</a>
                     </li>
                 </ul>
             </div>
