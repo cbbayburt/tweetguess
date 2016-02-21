@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface GameRepository extends CrudRepository<Game, Integer> {
 
-    @Query("select g.user, sum(g.correctAnswers) as correctAnswers, sum(g.score) as score from Game g where g.firstDayOfWeek = ?1 group by g.user order by score desc, correctAnswers desc")
+    @Query("select g.user, g.correctAnswers, g.score from Game g where g.score = (select max(score) from Game gg where gg.user = g.user AND gg.firstDayOfWeek = ?1) order by g.score desc, g.correctAnswers desc")
     List<Object[]> getWeeklyScoreList(LocalDate firstDayOfWeek);
 
 }
