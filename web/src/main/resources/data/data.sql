@@ -22,17 +22,17 @@ insert into category (id, slug, name, size, language_Id)
   values (8, 'sports', 'Spor', 15, 'tr');
 insert into category (id, slug, name, size, language_Id)
   values (9, 'politicst', 'Politika', 15, 'tr');
-insert into person (id, name, screen_Name, profile_Image_Url, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
+insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
   values (237448180, 'Devrim Yasar', 'devrimyasar', 'http://pbs.twimg.com/profile_images/378800000863144334/uZWGPcJz_normal.jpeg', 'http://t.co/btPeg0c2dr', 'false', 1890, 225, 115, 'en', 1);
-insert into person (id, name, screen_Name, profile_Image_Url, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
+insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
   values (237448181, 'Aykut Akin', 'aykutakin', 'http://pbs.twimg.com/profile_images/378800000863144334/uZWGPcJz_normal.jpeg', 'http://t.co/btPeg0c2dr', 'false', 1890, 225, 115, 'en', 1);
-insert into person (id, name, screen_Name, profile_Image_Url, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
+insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
   values (237448182, 'Can Bulut Bayburt', 'canbulutb', 'http://pbs.twimg.com/profile_images/378800000863144334/uZWGPcJz_normal.jpeg', 'http://t.co/btPeg0c2dr', 'false', 1890, 225, 115, 'en', 1);
-insert into person (id, name, screen_Name, profile_Image_Url, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
+insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
   values (237448183, 'Cansu Baysu', 'cansub', 'http://pbs.twimg.com/profile_images/378800000863144334/uZWGPcJz_normal.jpeg', 'http://t.co/btPeg0c2dr', 'false', 1890, 225, 115, 'en', 1);
-insert into person (id, name, screen_Name, profile_Image_Url, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
+insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
   values (237448184, 'Juergen Hoeller', 'juergen', 'http://pbs.twimg.com/profile_images/378800000863144334/uZWGPcJz_normal.jpeg', 'http://t.co/btPeg0c2dr', 'false', 1890, 225, 115, 'en', 1);
-insert into person (id, name, screen_Name, profile_Image_Url, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
+insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
   values (237448185, 'Steve Jobs', 'steve', 'http://pbs.twimg.com/profile_images/378800000863144334/uZWGPcJz_normal.jpeg', 'http://t.co/btPeg0c2dr', 'false', 1890, 225, 115, 'en', 1);
 insert into tweet (id, created_At, text, favorite_Count, retweet_Count, language_Id, category_Id, person_Id)
   values (1, null, 'tweet1', 100, 200, 'en', 1, 237448180);
