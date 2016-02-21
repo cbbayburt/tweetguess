@@ -4,13 +4,20 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
     $scope.view = 'index';
 
     $scope.user = { username: '' };
-    $scope.prefs = { category: '', lang: 'en'};
+    $scope.prefs = { category: '', lang: {code: 'en', name: 'EN'}};
 
     $scope.startGame = function() {
-        $http.post('initgame', $scope.user).then(function() {
+        $http.post('initgame', $scope.user).then(function(res) {
             $scope.view = 'category';
+            $scope.showAllCats = false;
+            $scope.categories = res.data.categories;
+            $scope.languages = res.data.languages;
             $anchorScroll('page-top');
         });
+    };
+
+    $scope.moreCats = function() {
+        $scope.showAllCats = true;
     };
 
     $scope.selectCategory = function(category) {

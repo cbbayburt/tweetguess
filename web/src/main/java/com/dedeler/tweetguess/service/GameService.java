@@ -30,10 +30,10 @@ public class GameService {
             personList.add(person);
             Collections.shuffle(personList);
             Integer correctAnswerIndex = personList.indexOf(person);
-            questionList.add(new Question(i, tweetList.get(i).getText(), personList));
+            questionList.add(new Question(i, tweetList.get(i).getText(), personList, null));
             answerMap.put(i, correctAnswerIndex);
         }
-        return new Game(questionList, answerMap, null);
+        return new Game(questionList, answerMap, null, 0, 0);
     }
 
 }

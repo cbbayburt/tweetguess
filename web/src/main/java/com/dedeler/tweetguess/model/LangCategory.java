@@ -2,6 +2,7 @@ package com.dedeler.tweetguess.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -11,9 +12,8 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class Question {
-    private Integer index;
-    private String tweet;
-    private List<Person> people;
-    private Long startTime;
+@NoArgsConstructor
+public class LangCategory {
+    List<Category> categories;
+    List<Language> languages;
 }

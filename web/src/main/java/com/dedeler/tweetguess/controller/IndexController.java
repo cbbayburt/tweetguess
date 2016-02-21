@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -39,12 +42,18 @@ public class IndexController {
 
     @RequestMapping(value = "/initgame", method = RequestMethod.POST)
     @ResponseBody
-    public User initGame(@RequestBody User user, Model model, HttpServletRequest request) {
+    public LangCategory initGame(@RequestBody User user, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(!session.isNew()) {
             model.addAttribute(game());
         }
-        return user;
+        model.addAttribute(user);
+        return new LangCategory(Arrays.asList(
+                new Category("music", "Music", 20, "en"),
+                new Category("politics", "Politics", 20, "en"),
+                new Category("celebs", "Celebrities", 20, "en"),
+                new Category("movies", "Movies", 20, "en")),
+                Arrays.asList(new Language("en", "EN", null), new Language("tr", "TR", null)));
     }
 
     @RequestMapping(value = "/getquestion", method = RequestMethod.POST)
@@ -57,14 +66,23 @@ public class IndexController {
         }
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
+        if(currentQuestionIndex == 10) {
+            return new Question(-1, null, null, null);
+        }
         game.setCurrentQuestion(game.getQuestionList().get(currentQuestionIndex));
-        return game.getCurrentQuestion();
+        currentQuestion.setStartTime(Instant.now().toEpochMilli());
+        return currentQuestion;
     }
 
     @RequestMapping("/answer")
     @ResponseBody
     public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute Game game) {
-        return new AnswerResult(answer.getChoice(), game.getAnswerMap().get(game.getCurrentQuestion().getIndex()));
+        int correct = game.getAnswerMap().get(game.getCurrentQuestion().getIndex());
+        if(answer.getChoice() == correct) {
+            game.setCorrectAnswers(game.getCorrectAnswers() + 1);
+            game.setScore(game.getScore() + 10);
+        }
+        return new AnswerResult(answer.getChoice(), correct);
     }
 
     @RequestMapping("/leaderboard")
@@ -76,7 +94,7 @@ public class IndexController {
         ls.add(new Score("sdfnd", false, 3, 21, 4112));
         ls.add(new Score("tntrjthr", false, 4, 34, 3644));
         ls.add(new Score("htejtr", false, 5, 24, 3278));
-        ls.add(new Score(user.getUsername(), false, 6, gameStatus.getCorrectAnswers(), gameStatus.getScore()));
+        ls.add(new Score(user.getUsername(), true, 6, gameStatus.getCorrectAnswers(), gameStatus.getScore()));
 
         return new Leaderboard(ls, prefs.getCategory(), prefs.getLang());
     }

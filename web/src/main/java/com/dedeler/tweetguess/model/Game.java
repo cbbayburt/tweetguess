@@ -18,5 +18,6 @@ public class Game {
     private List<Question> questionList;
     private Map<Integer, Integer> answerMap;
     private Question currentQuestion;
-
+    private Integer correctAnswers;
+    private Integer score;
 }
