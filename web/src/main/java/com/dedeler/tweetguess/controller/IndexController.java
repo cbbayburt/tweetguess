@@ -24,6 +24,10 @@ import java.util.List;
 @Controller
 public class IndexController {
 
+    public static final long QUESTION_TIME_LIMIT_MILLIS = 10000l;
+    public static final int QUESTION_MAX_SCORE = 500;
+    public static final int QUESTIONS_PER_GAME = 10;
+
     @Autowired
     private GameService gameService;
 
@@ -49,7 +53,9 @@ public class IndexController {
     }
 
     @RequestMapping("/")
-    public String index(){
+    public String index(Model model){
+        model.addAttribute("questionsPerGame", QUESTIONS_PER_GAME);
+        model.addAttribute("timeLimitMillis", QUESTION_TIME_LIMIT_MILLIS);
         return "index";
     }
 
@@ -82,26 +88,34 @@ public class IndexController {
         }
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
-        if(currentQuestionIndex == 10) {
+        if(currentQuestionIndex == QUESTIONS_PER_GAME) {
             //TODO: Persist score
             return new Question(-1, null, null, null);
         }
         currentQuestion = game.getQuestionList().get(currentQuestionIndex);
-        currentQuestion.setStartTime(Instant.now().toEpochMilli());
-
         game.setCurrentQuestion(currentQuestion);
+
+        currentQuestion.setStartTime(Instant.now().toEpochMilli());
         return currentQuestion;
     }
 
     @RequestMapping("/answer")
     @ResponseBody
     public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute Game game) {
+        Long time = Instant.now().toEpochMilli() - game.getCurrentQuestion().getStartTime();
+        if(time > QUESTION_TIME_LIMIT_MILLIS)
+            return null;
+
         int correct = game.getAnswerMap().get(game.getCurrentQuestion().getIndex());
         if(answer.getChoice() == correct) {
             game.setCorrectAnswers(game.getCorrectAnswers() + 1);
-            game.setScore(game.getScore() + 10);
+            game.setScore(game.getScore() + calculateScore(time));
         }
         return new AnswerResult(answer.getChoice(), correct);
+    }
+
+    private int calculateScore(long time) {
+        return (int)(QUESTION_MAX_SCORE - (time * QUESTION_MAX_SCORE / QUESTION_TIME_LIMIT_MILLIS));
     }
 
     @RequestMapping("/leaderboard")
@@ -111,25 +125,11 @@ public class IndexController {
         ls.add(new Score("asdx", false, 1, 123, 4567));
         ls.add(new Score("wef", false, 2, 12, 4563));
         ls.add(new Score("sdfnd", false, 3, 21, 4112));
-        ls.add(new Score("tntrjthr", false, 4, 34, 3644));
-        ls.add(new Score("htejtr", false, 5, 24, 3278));
-        ls.add(new Score(user.getUsername(), true, 6, game.getCorrectAnswers(), game.getScore()));
+        ls.add(new Score(user.getUsername(), true, 4, game.getCorrectAnswers(), game.getScore()));
+        ls.add(new Score("tntrjthr", false, 5, 34, 3644));
+        ls.add(new Score("htejtr", false, 6, 24, 3278));
 
         return new Leaderboard(ls, prefs.getCategory(), prefs.getLang());
     }
-
-    @RequestMapping("/p/{fragment}")
-    public String getFragment(@PathVariable("fragment") String fragment) {
-        return "partial/" + fragment + " :: content";
-    }
-
-    @RequestMapping("/game")
-    public String game(Model model) { return "game"; }
-
-    @RequestMapping("/loading")
-    public void loading() {}
-
-    @RequestMapping("/question")
-    public void question() {}
 
 }

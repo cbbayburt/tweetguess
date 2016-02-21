@@ -579,3 +579,10 @@ body {
     border-bottom: 1px #fff solid;
     font-weight: bold;
 }
+.progress-bar.static {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}?
