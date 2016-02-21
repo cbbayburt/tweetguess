@@ -67,7 +67,7 @@ public class AppRunner implements ApplicationRunner {
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
-                LOGGER.debug("Error in handleLanguage");
+                LOGGER.warn("Error in handleLanguage");
                 sleep();
             }
         } while(exceptionStatus);
@@ -86,7 +86,7 @@ public class AppRunner implements ApplicationRunner {
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
-                LOGGER.debug("Error in handleCategory");
+                LOGGER.warn("Error in handleCategory");
                 sleep();
             }
         } while(exceptionStatus);
@@ -106,7 +106,7 @@ public class AppRunner implements ApplicationRunner {
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
-                LOGGER.debug("Error in handlePerson");
+                LOGGER.warn("Error in handlePerson");
                 sleep();
             }
         } while(exceptionStatus);
@@ -127,7 +127,7 @@ public class AppRunner implements ApplicationRunner {
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
-                LOGGER.debug("Error in handleTweet");
+                LOGGER.warn("Error in handleTweet");
                 sleep();
             }
         } while(exceptionStatus);
