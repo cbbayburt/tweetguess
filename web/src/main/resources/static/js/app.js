@@ -72,6 +72,13 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         if (choice >= 0) {
             $scope.question.title = "Checking...";
             $http.post('answer', {choice: choice}).then(function (res) {
+                if(res.data == '') {
+                    $scope.question.title = "Time is over.";
+                    $timeout(function () {
+                        $scope.getQuestion();
+                    }, 2000);
+                    return;
+                }
                 $scope.question.wait = false;
                 if (res.data.userChoice == res.data.correctChoice) {
                     $scope.question.score = res.data.score > 0 ? res.data.score : 0;
