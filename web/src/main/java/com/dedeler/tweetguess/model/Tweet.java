@@ -37,4 +37,6 @@ public class Tweet {
     @JoinColumn(name = "personId")
     private Person person;
 
+    private Boolean valid;
+
 }
