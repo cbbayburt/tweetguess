@@ -23,10 +23,10 @@ spring:
     driverClassName: org.h2.Driver
 
 twitter:
-  consumer-key: {consumer-key}
-  consumer-secret: {consumer-secret}
-  access-token: {access-token}
-  access-token-secret: {access-token-secret}
+  consumer-key: bYAD3vbabHH2SHKed1fgJ8aU4
+  consumer-secret: SdEvFNuntCMQ0jX2JaOZFZ7zjxYcJ750Ll8PXtWNWJTK0hUjr6
+  access-token: 414252605-Sf0Wr0p8U6XxucRtvduJ0wrBpAi9QvAUHHwF8wyJ
+  access-token-secret: WgkJ5GR9yPXAtHrPY4ZCBo8WexQWtG3MPR7UUOoSisfqI
 
 # ===============================
 # = DEVELOPMENT
