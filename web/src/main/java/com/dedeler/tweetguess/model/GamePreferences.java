@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GamePreferences {
-    private String category;
-    private String lang;
+    private Category category;
+    private Language lang;
 }

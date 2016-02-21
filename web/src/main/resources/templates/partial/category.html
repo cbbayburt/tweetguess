@@ -10,7 +10,7 @@
                         <div style="height: 60px;"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-                                <button data-ng-repeat="c in categories | limitTo : (showAllCats ? undefined : 3)" data-ng-click="selectCategory(c.slug)" class="btn btn-info btn-lg btn-block">{{c.name}}</button>
+                                <button data-ng-repeat="c in categories | limitTo : (showAllCats ? undefined : 3)" data-ng-click="selectCategory(c)" class="btn btn-info btn-lg btn-block">{{c.name}}</button>
                                 <br/>
                                 <a data-ng-hide="showAllCats" data-ng-click="moreCats()" href="#">More...</a><br/>
                                 {{prefs.lang.name}} | <a href="#">Change region</a>

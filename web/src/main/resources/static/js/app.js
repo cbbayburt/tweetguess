@@ -4,7 +4,7 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
     $scope.view = 'index';
 
     $scope.user = { username: '' };
-    $scope.prefs = { category: '', lang: {code: 'en', name: 'EN'}};
+    $scope.prefs = { category: {slug: null, name: null}, lang: {code: 'en', name: 'EN'}};
 
     $scope.startGame = function() {
         $http.post('initgame', $scope.user).then(function(res) {

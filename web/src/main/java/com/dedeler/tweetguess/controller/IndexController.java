@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,10 +66,13 @@ public class IndexController {
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
         if(currentQuestionIndex == 10) {
+            //TODO: Persist score
             return new Question(-1, null, null, null);
         }
-        game.setCurrentQuestion(game.getQuestionList().get(currentQuestionIndex));
+        currentQuestion = game.getQuestionList().get(currentQuestionIndex);
         currentQuestion.setStartTime(Instant.now().toEpochMilli());
+
+        game.setCurrentQuestion(currentQuestion);
         return currentQuestion;
     }
 
@@ -87,14 +89,14 @@ public class IndexController {
 
     @RequestMapping("/leaderboard")
     @ResponseBody
-    public Leaderboard getLeaderboard(@ModelAttribute GameStatus gameStatus, @ModelAttribute User user, @ModelAttribute GamePreferences prefs) {
+    public Leaderboard getLeaderboard(@ModelAttribute Game game, @ModelAttribute User user, @ModelAttribute GamePreferences prefs) {
         List<Score> ls = new ArrayList<>();
         ls.add(new Score("asdx", false, 1, 123, 4567));
         ls.add(new Score("wef", false, 2, 12, 4563));
         ls.add(new Score("sdfnd", false, 3, 21, 4112));
         ls.add(new Score("tntrjthr", false, 4, 34, 3644));
         ls.add(new Score("htejtr", false, 5, 24, 3278));
-        ls.add(new Score(user.getUsername(), true, 6, gameStatus.getCorrectAnswers(), gameStatus.getScore()));
+        ls.add(new Score(user.getUsername(), true, 6, game.getCorrectAnswers(), game.getScore()));
 
         return new Leaderboard(ls, prefs.getCategory(), prefs.getLang());
     }

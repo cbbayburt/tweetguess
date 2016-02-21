@@ -15,6 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Leaderboard {
     List<Score> scores;
-    String category;
-    String region;
+    Category category;
+    Language language;
 }

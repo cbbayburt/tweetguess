@@ -21,11 +21,11 @@ public class GameService {
     private PersonRepository personRepository;
 
     public Game createGame(GamePreferences gamePreferences) {
-        List<Tweet> tweetList = tweetRepository.findFirst10ByCategoryId(gamePreferences.getCategory());
+        List<Tweet> tweetList = tweetRepository.findFirst10ByCategoryId(gamePreferences.getCategory().getSlug());
         List<Question> questionList = new ArrayList<>();
         Map<Integer, Integer> answerMap = new HashMap<>();
         for(int i=0; i<10; i++) {
-            List<Person> personList = personRepository.findTop3ByCategoryId(gamePreferences.getCategory());
+            List<Person> personList = personRepository.findTop3ByCategoryId(gamePreferences.getCategory().getSlug());
             Person person = personRepository.findOne(tweetList.get(i).getPersonId());
             personList.add(person);
             Collections.shuffle(personList);
