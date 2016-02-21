@@ -1,6 +1,8 @@
 package com.dedeler.tweetguess.controller;
 
 import com.dedeler.tweetguess.model.*;
+import com.dedeler.tweetguess.service.GameService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,13 +15,16 @@ import java.util.List;
 /**
  * @author Can Bulut Bayburt
  */
-@SessionAttributes(types = {User.class, GamePreferences.class, GameStatus.class})
+@SessionAttributes(types = {User.class, Game.class})
 @Controller
 public class IndexController {
 
+    @Autowired
+    private GameService gameService;
+
     @ModelAttribute
-    GameStatus gameStatus() {
-        return new GameStatus(-1, 0, 0);
+    Game game() {
+        return new Game();
     }
 
     @ModelAttribute
@@ -37,40 +42,29 @@ public class IndexController {
     public User initGame(@RequestBody User user, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(!session.isNew()) {
-            //Reset game status
-            model.addAttribute(gameStatus());
+            model.addAttribute(game());
         }
         return user;
     }
 
     @RequestMapping(value = "/getquestion", method = RequestMethod.POST)
     @ResponseBody
-    public Question getQuestion(@RequestBody GamePreferences preferences, @ModelAttribute GameStatus status, Model model) {
-
-        if(status.getCurrentQuestion() == 2) {
-            //End game
-            return new Question(0, -1, 0, null, null);
+    public Question getQuestion(@RequestBody GamePreferences preferences, @ModelAttribute Game game, Model model) {
+        Question currentQuestion = game.getCurrentQuestion();
+        if(currentQuestion == null) {
+            game = gameService.createGame(preferences);
+            model.addAttribute(game);
         }
 
-        List<Person> lp = new ArrayList<>();
-        lp.add(new Person(1l, "Aasd Zxc", "@aasdzxc", null));
-        lp.add(new Person(2l, "Vbb Zxx", "@vbbzxx", null));
-        lp.add(new Person(3l, "Qqwe Ads", "@qqweads", null));
-        lp.add(new Person(4l, "Hjk Jk", "@hjkjk", null));
-
-        model.addAttribute(preferences);
-        status.setCurrentQuestion(status.getCurrentQuestion() + 1);
-        return new Question(1, status.getCurrentQuestion(), 3,"Test sample tweet text.", lp);
+        Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
+        game.setCurrentQuestion(game.getQuestionList().get(currentQuestionIndex));
+        return game.getCurrentQuestion();
     }
 
     @RequestMapping("/answer")
     @ResponseBody
-    public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute GameStatus status, Model model) {
-        if(answer.getChoice() == 2) {
-            status.setCorrectAnswers(status.getCorrectAnswers() + 1);
-            status.setScore(status.getScore() + 10);
-        }
-        return new AnswerResult(answer.getChoice(), 2);
+    public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute Game game) {
+        return new AnswerResult(answer.getChoice(), game.getAnswerMap().get(game.getCurrentQuestion().getIndex()));
     }
 
     @RequestMapping("/leaderboard")

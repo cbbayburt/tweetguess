@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -26,12 +24,5 @@ public class Person {
     private Integer favouritesCount;
     private String langId;
     private String categoryId;
-
-    public Person(Long id, String name, String screenName, String profileImageUrl) {
-        this.id = id;
-        this.name = name;
-        this.screenName = screenName;
-        this.profileImageUrl = profileImageUrl;
-    }
 
 }

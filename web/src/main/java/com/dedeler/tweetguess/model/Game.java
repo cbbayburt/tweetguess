@@ -1,30 +1,22 @@
 package com.dedeler.tweetguess.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Aykut on 20.02.2016.
  */
 @Data
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Game {
 
-    @Id
-    private Integer id;
-
-    private LocalDate startTime;
-    private LocalDate endTime;
-
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private User user;
-
-    @OneToOne
-    @JoinColumn(name = "categoryId")
-    private Category category;
-    private String lang;
+    private List<Question> questionList;
+    private Map<Integer, Integer> answerMap;
+    private Question currentQuestion;
 
 }
