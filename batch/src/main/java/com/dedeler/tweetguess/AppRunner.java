@@ -77,10 +77,13 @@ public class AppRunner implements ApplicationRunner {
             try {
                 for(twitter4j.Category tgtCategory : tweetGuessTwitter.getSuggestedUserCategories(language.getCode())) {
                     exceptionStatus = false;
-                    Category category = dozerBeanMapper.map(tgtCategory, Category.class);
-                    category.setLanguage(language);
-                    categoryRepository.save(category);
-                    handlePerson(category);
+                    Category savedCategory = categoryRepository.findBySlugAndNameAndSizeAndLanguage(tgtCategory.getSlug(), tgtCategory.getName(), tgtCategory.getSize(), language);
+                    if(savedCategory == null) {
+                        Category category = dozerBeanMapper.map(tgtCategory, Category.class);
+                        category.setLanguage(language);
+                        categoryRepository.save(category);
+                        handlePerson(category);
+                    }
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
