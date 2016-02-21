@@ -4,6 +4,7 @@ import com.dedeler.tweetguess.model.*;
 import com.dedeler.tweetguess.service.CategoryService;
 import com.dedeler.tweetguess.service.GameService;
 import com.dedeler.tweetguess.service.LanguageService;
+import com.dedeler.tweetguess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,6 @@ import java.util.List;
 @Controller
 public class IndexController {
 
-    public static final long QUESTION_TIME_LIMIT_MILLIS = 10000l;
-    public static final int QUESTION_MAX_SCORE = 500;
-    public static final int QUESTIONS_PER_GAME = 3;
-
     @Autowired
     private GameService gameService;
 
@@ -34,6 +31,9 @@ public class IndexController {
 
     @Autowired
     private LanguageService languageService;
+
+    @Autowired
+    private UserService userService;
 
     @ModelAttribute
     Game game() {
@@ -52,8 +52,8 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model){
-        model.addAttribute("questionsPerGame", QUESTIONS_PER_GAME);
-        model.addAttribute("timeLimitMillis", QUESTION_TIME_LIMIT_MILLIS);
+        model.addAttribute("questionsPerGame", Game.QUESTIONS_PER_GAME);
+        model.addAttribute("timeLimitMillis", Game.QUESTION_TIME_LIMIT_MILLIS);
         return "index";
     }
 
@@ -65,7 +65,9 @@ public class IndexController {
             model.addAttribute(game());
         }
 
+        userService.save(user);
         model.addAttribute(user);
+
         return new LangCategory(categoryService.getShuffledCategoriesByLang(prefs.getLang()), languageService.getLanguagesOrderByName());
     }
 
@@ -78,17 +80,20 @@ public class IndexController {
 
     @RequestMapping("/getquestion")
     @ResponseBody
-    public Question getQuestion(@RequestBody GamePreferences preferences, @ModelAttribute Game game, Model model) {
+    public Question getQuestion(@RequestBody GamePreferences preferences, @ModelAttribute User user, @ModelAttribute Game game, Model model) {
         Question currentQuestion = game.getCurrentQuestion();
+
+        // If no question is asked, create a game
         if(currentQuestion == null) {
-            game = gameService.createGame(preferences);
+            game = gameService.createNewGame(preferences, user);
             model.addAttribute(game);
         }
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
-        if(currentQuestionIndex == QUESTIONS_PER_GAME) {
+
+        if(currentQuestionIndex == Game.QUESTIONS_PER_GAME) {
             //TODO: Persist score
-            return new Question(-1, null, null, null);
+            return null;
         }
         currentQuestion = game.getQuestionList().get(currentQuestionIndex);
         game.setCurrentQuestion(currentQuestion);
@@ -101,7 +106,7 @@ public class IndexController {
     @ResponseBody
     public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute Game game) {
         Long time = Instant.now().toEpochMilli() - game.getCurrentQuestion().getStartTime();
-        if(time > QUESTION_TIME_LIMIT_MILLIS)
+        if(time > Game.QUESTION_TIME_LIMIT_MILLIS)
             return null;
 
         int correct = game.getAnswerMap().get(game.getCurrentQuestion().getIndex());
@@ -116,7 +121,7 @@ public class IndexController {
     }
 
     private int calculateScore(long time) {
-        return (int)(QUESTION_MAX_SCORE - (time * QUESTION_MAX_SCORE / QUESTION_TIME_LIMIT_MILLIS));
+        return (int)(Game.QUESTION_MAX_SCORE - (time * Game.QUESTION_MAX_SCORE / Game.QUESTION_TIME_LIMIT_MILLIS));
     }
 
     @RequestMapping("/leaderboard")

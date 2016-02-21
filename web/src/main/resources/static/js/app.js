@@ -41,12 +41,12 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
             $scope.question.score = 0;
         }
         $http.post('getquestion', $scope.prefs).then(function(res){
-            $scope.question = res.data;
-            $scope.question.title = "Who tweeted this?";
-            if($scope.question.index == -1) {
+            if(res.data == '') {
                 $scope.getLeaderboard();
                 return;
             }
+            $scope.question = res.data;
+            $scope.question.title = "Who tweeted this?";
             $scope.question.loading = false;
             $scope.question.answered = false;
             $scope.choices = ['', '', '', ''];

@@ -1,11 +1,15 @@
 package com.dedeler.tweetguess.service;
 
 import com.dedeler.tweetguess.model.*;
+import com.dedeler.tweetguess.repository.GameRepository;
 import com.dedeler.tweetguess.repository.PersonRepository;
+import com.dedeler.tweetguess.repository.QuestionRepository;
 import com.dedeler.tweetguess.repository.TweetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -20,20 +24,31 @@ public class GameService {
     @Autowired
     private PersonRepository personRepository;
 
-    public Game createGame(GamePreferences gamePreferences) {
-        List<Tweet> tweetList = tweetRepository.findFirst10ByCategoryId(gamePreferences.getCategory().getSlug());
+    @Autowired
+    private GameRepository gameRepository;
+
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    public Game createNewGame(GamePreferences gamePreferences, User user) {
+        List<Tweet> tweetList = tweetRepository.findFirst10ByCategory(gamePreferences.getCategory());
+
         List<Question> questionList = new ArrayList<>();
         Map<Integer, Integer> answerMap = new HashMap<>();
-        for(int i=0; i<10; i++) {
-            List<Person> personList = personRepository.findTop3ByCategoryId(gamePreferences.getCategory().getSlug());
-            Person person = personRepository.findOne(tweetList.get(i).getPersonId());
-            personList.add(person);
+        for(int i=0; i<Game.QUESTIONS_PER_GAME; i++) {
+            List<Person> personList = personRepository.findTop3ByCategory(gamePreferences.getCategory());
+            personList.add(tweetList.get(i).getPerson());
             Collections.shuffle(personList);
-            Integer correctAnswerIndex = personList.indexOf(person);
-            questionList.add(new Question(i, tweetList.get(i).getText(), personList, null));
+            Integer correctAnswerIndex = personList.indexOf(tweetList.get(i).getPerson());
+            questionList.add(new Question(null, tweetList.get(i), i, personList, null));
             answerMap.put(i, correctAnswerIndex);
         }
-        return new Game(questionList, answerMap, null, 0, 0);
+
+        Game game = new Game(null, LocalDateTime.now(), null, user, gamePreferences.getCategory(), gamePreferences.getLang(), questionList, answerMap, null, 0, 0);
+        questionRepository.save(questionList);
+        gameRepository.save(game);
+
+        return game;
     }
 
 }

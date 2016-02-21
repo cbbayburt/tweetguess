@@ -48,4 +48,13 @@ public class Game {
     private Question currentQuestion;
     private Integer correctAnswers;
     private Integer score;
+
+    @Transient
+    public static final long QUESTION_TIME_LIMIT_MILLIS = 10000l;
+
+    @Transient
+    public static final int QUESTION_MAX_SCORE = 500;
+
+    @Transient
+    public static final int QUESTIONS_PER_GAME = 10;
 }
