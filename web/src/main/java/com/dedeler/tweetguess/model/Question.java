@@ -1,27 +1,21 @@
 package com.dedeler.tweetguess.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import java.time.LocalDate;
+import java.util.List;
 
 /**
- * Created by Aykut on 20.02.2016.
+ * @author Can Bulut Bayburt
  */
+
 @Data
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question {
-
-    @Id
     private Integer id;
-
-    @OneToOne
-    @JoinColumn(name = "tweetId")
-    private Tweet tweet;
-    private String choices;
-    private LocalDate askedTime;
-
+    private Integer index;
+    private String tweet;
+    private List<Person> people;
 }

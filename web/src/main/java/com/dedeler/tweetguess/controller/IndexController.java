@@ -1,6 +1,6 @@
 package com.dedeler.tweetguess.controller;
 
-import com.dedeler.tweetguess.viewmodel.*;
+import com.dedeler.tweetguess.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Aykut on 20.02.2016.
  */
-@SessionAttributes(types = {UserInfo.class, GamePreferences.class, GameStatus.class})
+@SessionAttributes(types = {User.class, GamePreferences.class, GameStatus.class})
 @Controller
 public class IndexController {
 
@@ -29,7 +29,7 @@ public class IndexController {
 
     @RequestMapping(value = "/initgame", method = RequestMethod.POST)
     @ResponseBody
-    public UserInfo initGame(@RequestBody UserInfo user, Model model, HttpServletRequest request) {
+    public User initGame(@RequestBody User user, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         if(!session.isNew()) {
             //Reset game status
@@ -41,14 +41,14 @@ public class IndexController {
     @RequestMapping(value = "/getquestion", method = RequestMethod.POST)
     @ResponseBody
     public Question getQuestion(@RequestBody GamePreferences preferences, @ModelAttribute GameStatus status, Model model) {
-        List<People> lp = new ArrayList<>();
-        lp.add(new People(1, "Aasd Zxc", "@aasdzxc", null));
-        lp.add(new People(2, "Vbb Zxx", "@vbbzxx", null));
-        lp.add(new People(3, "Qqwe Ads", "@qqweads", null));
-        lp.add(new People(4, "Hjk Jk", "@hjkjk", null));
+        List<Person> lp = new ArrayList<>();
+        lp.add(new Person());
+        lp.add(new Person());
+        lp.add(new Person());
+        lp.add(new Person());
 
         status.setCurrentQuestion(status.getCurrentQuestion() + 1);
-        return new Question(1, status.getCurrentQuestion(), "Test sample tweet text.", lp);
+        return new Question();
     }
 
     @RequestMapping("/answer")

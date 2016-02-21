@@ -18,8 +18,6 @@ public class Person {
     private Long id;
     private String name;
     private String screenName;
-    private String location;
-    private String description;
     private String profileImageUrl;
     private String url;
     private Boolean isProtected;
