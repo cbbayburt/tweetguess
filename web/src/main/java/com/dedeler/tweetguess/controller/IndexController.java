@@ -1,7 +1,9 @@
 package com.dedeler.tweetguess.controller;
 
 import com.dedeler.tweetguess.model.*;
+import com.dedeler.tweetguess.service.CategoryService;
 import com.dedeler.tweetguess.service.GameService;
+import com.dedeler.tweetguess.service.LanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,6 +26,12 @@ public class IndexController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private LanguageService languageService;
 
     @ModelAttribute
     Game game() {
@@ -52,27 +61,15 @@ public class IndexController {
             model.addAttribute(game());
         }
 
-        //Get categories for lang: prefs.getLanguage
-
         model.addAttribute(user);
-        return new LangCategory(Arrays.asList(
-                new Category("music", "Music", 20, "en"),
-                new Category("politics", "Politics", 20, "en"),
-                new Category("celebs", "Celebrities", 20, "en"),
-                new Category("movies", "Movies", 20, "en")),
-                Arrays.asList(new Language("en", "EN", null), new Language("tr", "TR", null)));
+        return new LangCategory(categoryService.getShuffledCategoriesByLang(prefs.getLang()), languageService.getLanguagesOrderByName());
     }
 
     @RequestMapping("/selectregion")
     public List<Category> selectRegion(@RequestBody Language lang, @ModelAttribute GamePreferences prefs) {
         prefs.setLang(lang);
 
-        //Get categories for lang: lang
-        return Arrays.asList(
-                new Category("music", "Music", 20, "en"),
-                new Category("politics", "Politics", 20, "en"),
-                new Category("celebs", "Celebrities", 20, "en"),
-                new Category("movies", "Movies", 20, "en"));
+        return categoryService.getShuffledCategoriesByLang(prefs.getLang());
     }
 
     @RequestMapping("/getquestion")

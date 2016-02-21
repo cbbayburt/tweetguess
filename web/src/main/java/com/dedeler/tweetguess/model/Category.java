@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -17,9 +19,14 @@ import javax.persistence.Id;
 public class Category {
 
     @Id
+    private Integer id;
+
     private String slug;
     private String name;
     private Integer size;
-    private String languageId;
+
+    @ManyToOne
+    @JoinColumn(name = "languageId")
+    private Language language;
 
 }
