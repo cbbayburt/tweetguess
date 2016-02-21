@@ -1,6 +1,7 @@
 package com.dedeler.tweetguess.config;
 
 import org.h2.tools.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +16,14 @@ import java.sql.SQLException;
 @Configuration
 public class WebConfig implements ServletContextInitializer {
 
+    @Value("${h2.server.start}")
+    private Boolean h2ServerStart;
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        initH2TCPServer();
+        if(h2ServerStart) {
+            initH2TCPServer();
+        }
     }
 
     @Bean(initMethod="start", destroyMethod="stop")

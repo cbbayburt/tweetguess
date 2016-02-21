@@ -26,6 +26,10 @@ spring:
     password:
     driverClassName: org.h2.Driver
 
+h2:
+  server:
+    start: false
+
 # ===============================
 # = SERVER
 # ===============================
