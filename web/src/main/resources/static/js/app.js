@@ -71,6 +71,7 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
                 } else {
                     $scope.question.title = "Wrong!";
                 }
+                $anchorScroll('page-top');
                 $scope.choices[res.data.userChoice] = 'false';
                 $scope.choices[res.data.correctChoice] = 'true';
 
@@ -79,7 +80,7 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
                 }, 2000);
             });
         } else {
-            $scope.question.title = "Time is over."
+            $scope.question.title = "Time is over.";
             $timeout(function () {
                 $scope.getQuestion();
             }, 2000);
