@@ -45,11 +45,6 @@ public class IndexController {
         return new User();
     }
 
-    @ModelAttribute
-    GamePreferences gamePreferences() {
-        return new GamePreferences(null, new Language("en", "English", "production"));
-    }
-
     @RequestMapping("/")
     public String index(Model model){
         model.addAttribute("questionsPerGame", GameService.QUESTIONS_PER_GAME);
@@ -59,21 +54,19 @@ public class IndexController {
 
     @RequestMapping("/initgame")
     @ResponseBody
-    public LangCategory initGame(@RequestBody User user, @ModelAttribute GamePreferences prefs, Model model, HttpServletRequest request) {
+    public LangCategory initGame(@RequestBody UserPreferences userPrefs, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        userService.save(user);
-        model.addAttribute(user);
+        userService.save(userPrefs.getUser());
+        model.addAttribute(userPrefs.getUser());
 
-        return new LangCategory(categoryService.getShuffledCategoriesByLang(prefs.getLang()), languageService.getLanguagesOrderByName());
+        return new LangCategory(categoryService.getShuffledCategoriesByLang(userPrefs.getPreferences().getLang()), languageService.getLanguagesOrderByName());
     }
 
     @RequestMapping("/selectregion")
     @ResponseBody
-    public List<Category> selectRegion(@RequestBody Language lang, @ModelAttribute GamePreferences prefs) {
-        prefs.setLang(lang);
-
-        return categoryService.getShuffledCategoriesByLang(prefs.getLang());
+    public List<Category> selectRegion(@RequestBody Language lang, Model model) {
+        return categoryService.getShuffledCategoriesByLang(lang);
     }
 
     @RequestMapping("/getquestion")
@@ -85,6 +78,7 @@ public class IndexController {
         if(currentQuestion == null) {
             game = gameService.createNewGame(preferences, user);
             model.addAttribute(game);
+            model.addAttribute(preferences);
         }
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;

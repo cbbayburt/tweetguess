@@ -28,7 +28,7 @@ spring:
 
 h2:
   server:
-    start: false
+    start: true
 
 # ===============================
 # = SERVER

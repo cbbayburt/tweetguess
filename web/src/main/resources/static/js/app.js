@@ -13,7 +13,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.startGame = function () {
-        $http.post('initgame', $scope.user).then(function (res) {
+        $http.post('initgame', {user: $scope.user, preferences: $scope.prefs }).then(function (res) {
             $scope.view = 'category';
             $scope.showAllCats = false;
             $scope.categories = res.data.categories;
