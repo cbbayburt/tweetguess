@@ -14,11 +14,11 @@ import java.util.List;
 @Repository
 public interface TweetRepository extends CrudRepository<Tweet, Long> {
 
-    Integer countByCategory(Category category);
+    Integer countByCategoryAndValid(Category category, Boolean valid);
 
     @Query(value = "select * from (select rownum as row_num, t.* from Tweet t left outer join (select q.tweet_id, q.game_id from Question q\n" +
-            "inner join Game g on q.game_id = g.id where g.user_id=?2) q on t.id = q.tweet_id where t.category_id = ?1 \n" +
+            "inner join Game g on q.game_id = g.id where g.user_id=?2) q on t.id = q.tweet_id where t.category_id = ?1 and t.valid = ?4 \n" +
             "order by q.game_id asc, t.created_at desc) where row_num in ?3", nativeQuery = true)
-    List<Tweet> getGeoRandomizedTweetsByCategory(Integer categoryId, String userId, List<Integer> randomNumberList);
+    List<Tweet> getGeoRandomizedTweetsByCategoryAndValid(Integer categoryId, String userId, List<Integer> randomNumberList, Boolean valid);
 
 }

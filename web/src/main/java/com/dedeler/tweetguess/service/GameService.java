@@ -43,8 +43,8 @@ public class GameService {
     }
 
     public Game createNewGame(GamePreferences gamePreferences, User user) {
-        Integer tweetCount = tweetRepository.countByCategory(gamePreferences.getCategory());
-        List<Tweet> tweetList = tweetRepository.getGeoRandomizedTweetsByCategory(gamePreferences.getCategory().getId(), user.getUsername(), getRandomNumbers(tweetCount));
+        Integer tweetCount = tweetRepository.countByCategoryAndValid(gamePreferences.getCategory(), true);
+        List<Tweet> tweetList = tweetRepository.getGeoRandomizedTweetsByCategoryAndValid(gamePreferences.getCategory().getId(), user.getUsername(), getRandomNumbers(tweetCount), true);
         List<Person> personList = personRepository.findByCategory(gamePreferences.getCategory());
 
         List<Question> questionList = new ArrayList<>();
