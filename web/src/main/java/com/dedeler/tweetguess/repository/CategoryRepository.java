@@ -14,5 +14,6 @@ import java.util.List;
 public interface CategoryRepository extends CrudRepository<Category, String> {
 
     List<Category> findByLanguage(Language language);
+    Category findBySlugAndNameAndSizeAndLanguage(String slug, String name, Integer size, Language language);
 
 }
