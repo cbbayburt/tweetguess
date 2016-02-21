@@ -22,7 +22,7 @@ public class GameService {
 
     public static final long QUESTION_TIME_LIMIT_MILLIS = 10000l;
     public static final int QUESTION_MAX_SCORE = 500;
-    public static final int QUESTIONS_PER_GAME = 3;
+    public static final int QUESTIONS_PER_GAME = 10;
     public static final int LEADERBOARD_SIZE = 10;
 
     @Autowired
@@ -75,7 +75,7 @@ public class GameService {
             Object[] summedScore = weeklyScoreList.get(i);
 
             String username = ((User) summedScore[0]).getUsername();
-            boolean isCurrentUser = (currentUser!=null&&StringUtils.isNotBlank(currentUser.getUsername())) ? currentUser.getUsername().equals(username) : false;
+            boolean isCurrentUser = (currentUser != null && StringUtils.isNotBlank(currentUser.getUsername())) && currentUser.getUsername().equals(username);
             if(isCurrentUser && !isUserOnTopList) {
                 isUserOnTopList = true;
             }
@@ -95,6 +95,12 @@ public class GameService {
         }
 
         return new Leaderboard(scores, null, null);
+    }
+
+    public static double getRandom(Random r, double geoSeed) {
+        geoSeed /= 3;
+        double p = 1.0 / ((double) geoSeed);
+        return (int) (Math.ceil(Math.log(r.nextDouble()) / Math.log(1.0 - p)));
     }
 
 }
