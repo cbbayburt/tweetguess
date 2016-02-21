@@ -58,12 +58,10 @@ public class AppRunner implements ApplicationRunner {
         do {
             try {
                 for(HelpResources.Language tgtLanguage : tweetGuessTwitter.getLanguages()) {
-                    if(tgtLanguage.getCode().equals("en")) {
-                        exceptionStatus = false;
-                        Language language = dozerBeanMapper.map(tgtLanguage, Language.class);
-                        languageRepository.save(language);
-                        handleCategory(language);
-                    }
+                    exceptionStatus = false;
+                    Language language = dozerBeanMapper.map(tgtLanguage, Language.class);
+                    languageRepository.save(language);
+                    handleCategory(language);
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
