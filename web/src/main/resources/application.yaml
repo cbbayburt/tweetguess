@@ -37,13 +37,9 @@ server:
 ---
 spring:
   profiles: development
-  datasource:
-    initialize: true
-    data: classpath*:data/data.sql
   thymeleaf:
     cache: false
   jpa:
-    show-sql: true
     hibernate:
       ddl-auto: create-drop
   h2:
