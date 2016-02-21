@@ -1,15 +1,15 @@
-var app = angular.module('tweetguess', ['ngRoute']);
+var app = angular.module('tweetguess');
 
-app.controller('mainController', function($scope, $timeout, $http, $anchorScroll, $interval) {
+app.controller('mainController', function ($scope, $timeout, $http, $anchorScroll, $interval) {
     $scope.view = 'index';
 
-    $scope.user = { username: '' };
-    $scope.prefs = { category: {slug: null, name: null}, lang: {code: 'en', name: 'EN'}};
-    $scope.timer = { progress: 0, live: undefined, max: 30000 };
-    $scope.constants = { numQuestions: 10 };
+    $scope.user = {username: ''};
+    $scope.prefs = {category: {slug: null, name: null}, lang: {code: 'en', name: 'EN'}};
+    $scope.timer = {progress: 0, live: undefined, max: 30000};
+    $scope.constants = {numQuestions: 10};
 
-    $scope.startGame = function() {
-        $http.post('initgame', $scope.user).then(function(res) {
+    $scope.startGame = function () {
+        $http.post('initgame', $scope.user).then(function (res) {
             $scope.view = 'category';
             $scope.showAllCats = false;
             $scope.categories = res.data.categories;
@@ -18,11 +18,11 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
         });
     };
 
-    $scope.moreCats = function() {
+    $scope.moreCats = function () {
         $scope.showAllCats = true;
     };
 
-    $scope.selectCategory = function(category) {
+    $scope.selectCategory = function (category) {
         $scope.loadTitle = "Starting a new game...";
         $scope.view = 'loading';
         $anchorScroll('page-top');
@@ -31,17 +31,17 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
         $scope.getQuestion();
     };
 
-    $scope.getQuestion = function() {
-        if($scope.question) {
+    $scope.getQuestion = function () {
+        if ($scope.question) {
             $scope.question.loading = true;
-            if($scope.question.index == $scope.constants.numQuestions - 1)
+            if ($scope.question.index == $scope.constants.numQuestions - 1)
                 $scope.question.title = "Saving progress...";
             else
                 $scope.question.title = "Next question...";
             $scope.question.score = 0;
         }
-        $http.post('getquestion', $scope.prefs).then(function(res){
-            if(res.data == '') {
+        $http.post('getquestion', $scope.prefs).then(function (res) {
+            if (res.data == '') {
                 $scope.getLeaderboard();
                 return;
             }
@@ -56,16 +56,16 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
         });
     };
 
-    $scope.answer = function(choice) {
-        if($scope.question.answered) return;
+    $scope.answer = function (choice) {
+        if ($scope.question.answered) return;
         $scope.question.answered = true;
         $scope.question.wait = true;
         $scope.stopTimer();
-        if(choice >= 0) {
+        if (choice >= 0) {
             $scope.question.title = "Checking...";
             $http.post('answer', {choice: choice}).then(function (res) {
                 $scope.question.wait = false;
-                if(res.data.userChoice == res.data.correctChoice) {
+                if (res.data.userChoice == res.data.correctChoice) {
                     $scope.question.score = res.data.score > 0 ? res.data.score : 0;
                     $scope.question.title = "Correct!";
                 } else {
@@ -87,26 +87,26 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
         }
     };
 
-    $scope.getLeaderboard = function() {
+    $scope.getLeaderboard = function () {
         $scope.view = 'loading';
         $scope.loadTitle = "Loading leaderboard...";
-        $http.get('leaderboard').then(function(res) {
+        $http.get('leaderboard').then(function (res) {
             $scope.leaderboard = res.data;
             $scope.view = 'leaderboard';
         });
     };
 
-    $scope.resetTimer = function() {
+    $scope.resetTimer = function () {
         $scope.timer.progress = 0;
         $scope.startTimer();
     };
 
-    $scope.startTimer = function() {
-        if(angular.isDefined($scope.timer.live)) return;
+    $scope.startTimer = function () {
+        if (angular.isDefined($scope.timer.live)) return;
 
-        $scope.timer.live = $interval(function() {
+        $scope.timer.live = $interval(function () {
             //Countdown
-            if($scope.timer.progress >= 100) {
+            if ($scope.timer.progress >= 100) {
                 $scope.stopTimer();
                 $scope.answer(-1);
                 return;
@@ -116,11 +116,11 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
         }, 1000);
     };
 
-    $scope.stopTimer = function() {
-        if(angular.isDefined($scope.timer.live)) {
+    $scope.stopTimer = function () {
+        if (angular.isDefined($scope.timer.live)) {
             $interval.cancel($scope.timer.live);
             $scope.timer.live = undefined;
         }
-    }
+    };
 
 });

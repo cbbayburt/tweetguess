@@ -56,5 +56,5 @@ public class Game {
     public static final int QUESTION_MAX_SCORE = 500;
 
     @Transient
-    public static final int QUESTIONS_PER_GAME = 10;
+    public static final int QUESTIONS_PER_GAME = 2;
 }
