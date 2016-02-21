@@ -22,8 +22,16 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
     };
 
     $scope.getQuestion = function() {
+        if($scope.question) {
+            $scope.question.loading = true;
+        }
         $http.post('getquestion', $scope.prefs).then(function(res){
             $scope.question = res.data;
+            if($scope.question.index == -1) {
+                $scope.getLeaderboard();
+                return;
+            }
+            $scope.question.loading = false;
             $scope.question.answered = false;
             $scope.choices = ['', '', '', ''];
             $scope.view = 'question';
@@ -34,8 +42,9 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
     $scope.answer = function(choice) {
         if($scope.question.answered) return;
         $scope.question.answered = true;
+        $scope.question.wait = true;
         $http.post('answer', {choice: choice}).then(function(res) {
-            $scope.question.tweet = res.data.correctChoice == res.data.userChoice ? 'True' : 'False';
+            $scope.question.wait = false;
             $scope.choices[res.data.userChoice] = 'false';
             $scope.choices[res.data.correctChoice] = 'true';
 
@@ -44,4 +53,13 @@ app.controller('mainController', function($scope, $timeout, $http, $anchorScroll
             }, 2000);
         });
     };
+
+    $scope.getLeaderboard = function() {
+        $scope.view = 'loading';
+        $http.get('leaderboard').then(function(res) {
+            $scope.leaderboard = res.data;
+            $scope.view = 'leaderboard';
+        });
+    }
+
 });

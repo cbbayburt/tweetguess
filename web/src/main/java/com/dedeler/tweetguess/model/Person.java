@@ -27,4 +27,11 @@ public class Person {
     private String langId;
     private String categoryId;
 
+    public Person(Long id, String name, String screenName, String profileImageUrl) {
+        this.id = id;
+        this.name = name;
+        this.screenName = screenName;
+        this.profileImageUrl = profileImageUrl;
+    }
+
 }

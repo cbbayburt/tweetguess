@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class GameStatus {
-    Integer currentQuestion;
-    Integer correctAnswers;
-    Integer score;
+@NoArgsConstructor
+public class Score {
+    private String username;
+    private boolean user;
+    private Integer rank;
+    private Integer tweets;
+    private Integer score;
 }

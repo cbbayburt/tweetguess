@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Aykut on 20.02.2016.
+ * @author Can Bulut Bayburt
  */
 @SessionAttributes(types = {User.class, GamePreferences.class, GameStatus.class})
 @Controller
@@ -19,7 +19,12 @@ public class IndexController {
 
     @ModelAttribute
     GameStatus gameStatus() {
-        return new GameStatus(-1);
+        return new GameStatus(-1, 0, 0);
+    }
+
+    @ModelAttribute
+    User user() {
+        return new User();
     }
 
     @RequestMapping("/")
@@ -41,20 +46,45 @@ public class IndexController {
     @RequestMapping(value = "/getquestion", method = RequestMethod.POST)
     @ResponseBody
     public Question getQuestion(@RequestBody GamePreferences preferences, @ModelAttribute GameStatus status, Model model) {
-        List<Person> lp = new ArrayList<>();
-        lp.add(new Person());
-        lp.add(new Person());
-        lp.add(new Person());
-        lp.add(new Person());
 
+        if(status.getCurrentQuestion() == 2) {
+            //End game
+            return new Question(0, -1, 0, null, null);
+        }
+
+        List<Person> lp = new ArrayList<>();
+        lp.add(new Person(1l, "Aasd Zxc", "@aasdzxc", null));
+        lp.add(new Person(2l, "Vbb Zxx", "@vbbzxx", null));
+        lp.add(new Person(3l, "Qqwe Ads", "@qqweads", null));
+        lp.add(new Person(4l, "Hjk Jk", "@hjkjk", null));
+
+        model.addAttribute(preferences);
         status.setCurrentQuestion(status.getCurrentQuestion() + 1);
-        return new Question();
+        return new Question(1, status.getCurrentQuestion(), 3,"Test sample tweet text.", lp);
     }
 
     @RequestMapping("/answer")
     @ResponseBody
-    public AnswerResult answer(@RequestBody Answer answer, Model model) {
+    public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute GameStatus status, Model model) {
+        if(answer.getChoice() == 2) {
+            status.setCorrectAnswers(status.getCorrectAnswers() + 1);
+            status.setScore(status.getScore() + 10);
+        }
         return new AnswerResult(answer.getChoice(), 2);
+    }
+
+    @RequestMapping("/leaderboard")
+    @ResponseBody
+    public Leaderboard getLeaderboard(@ModelAttribute GameStatus gameStatus, @ModelAttribute User user, @ModelAttribute GamePreferences prefs) {
+        List<Score> ls = new ArrayList<>();
+        ls.add(new Score("asdx", false, 1, 123, 4567));
+        ls.add(new Score("wef", false, 2, 12, 4563));
+        ls.add(new Score("sdfnd", false, 3, 21, 4112));
+        ls.add(new Score("tntrjthr", false, 4, 34, 3644));
+        ls.add(new Score("htejtr", false, 5, 24, 3278));
+        ls.add(new Score(user.getUsername(), false, 6, gameStatus.getCorrectAnswers(), gameStatus.getScore()));
+
+        return new Leaderboard(ls, prefs.getCategory(), prefs.getLang());
     }
 
     @RequestMapping("/p/{fragment}")
@@ -71,6 +101,4 @@ public class IndexController {
     @RequestMapping("/question")
     public void question() {}
 
-    @RequestMapping("/leaderboard")
-    public void leaderboard() {}
 }

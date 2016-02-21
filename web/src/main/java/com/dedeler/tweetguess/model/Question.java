@@ -16,6 +16,7 @@ import java.util.List;
 public class Question {
     private Integer id;
     private Integer index;
+    private Integer total;
     private String tweet;
     private List<Person> people;
 }

@@ -4,15 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author Can Bulut Bayburt
  */
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class GameStatus {
-    Integer currentQuestion;
-    Integer correctAnswers;
-    Integer score;
+@NoArgsConstructor
+public class Leaderboard {
+    List<Score> scores;
+    String category;
+    String region;
 }

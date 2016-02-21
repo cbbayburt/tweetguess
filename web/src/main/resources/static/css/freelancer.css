@@ -558,3 +558,18 @@ body {
     padding-left: 20px;
     padding-right: 20px;
 }
+
+.btn-info.noclick {
+    background-color: #3498db !important;
+    border-color: #3498db !important;
+}
+
+.btn-success.noclick {
+    background-color: #4DD067 !important;
+    border-color: #4DD067 !important;
+}
+
+.btn-danger.noclick {
+    background-color: #e74c3c !important;
+    border-color: #e74c3c !important;
+}

@@ -22,25 +22,25 @@
                             <div class="col-sm-12 col-md-8 col-md-offset-2">
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 choice">
-                                        <button data-ng-disabled="question.answered" data-ng-class="{'true':'btn-success', 'false':'btn-danger', '':'btn-info'}[choices[0]]" class="btn btn-lg btn-block" data-ng-click="answer(0)">
+                                        <button data-ng-disabled="question.wait" data-ng-class="{'btn-info':choices[0]=='', 'btn-success':choices[0]==='true', 'btn-danger':choices[0]==='false', 'noclick': question.answered}" class="btn btn-lg btn-block" data-ng-click="answer(0)">
                                             <img src="img/profile.png"/>
                                             <p>{{question.people[0].name}}<br/><span>{{question.people[0].screenName}}</span></p>
                                         </button>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 choice">
-                                        <button data-ng-disabled="question.answered" data-ng-class="{'true':'btn-success', 'false':'btn-danger', '':'btn-info'}[choices[1]]" class="btn btn-lg btn-block" data-ng-click="answer(1)">
+                                        <button data-ng-disabled="question.wait" data-ng-class="{'btn-info':choices[1]=='', 'btn-success':choices[1]==='true', 'btn-danger':choices[1]==='false', 'noclick': question.answered}" class="btn btn-lg btn-block" data-ng-click="answer(1)">
                                             <img src="img/profile.png"/>
                                             <p>{{question.people[1].name}}<br/><span>{{question.people[1].screenName}}</span></p>
                                         </button>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 choice">
-                                        <button data-ng-disabled="question.answered" data-ng-class="{'true':'btn-success', 'false':'btn-danger', '':'btn-info'}[choices[2]]" class="btn btn-lg btn-block" data-ng-click="answer(2)">
+                                        <button data-ng-disabled="question.wait" data-ng-class="{'btn-info':choices[2]=='', 'btn-success':choices[2]==='true', 'btn-danger':choices[2]==='false', 'noclick': question.answered}" class="btn btn-lg btn-block" data-ng-click="answer(2)">
                                             <img src="img/profile.png"/>
                                             <p>{{question.people[2].name}}<br/><span>{{question.people[2].screenName}}</span></p>
                                         </button>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 choice">
-                                        <button data-ng-disabled="question.answered" data-ng-class="{'true':'btn-success', 'false':'btn-danger', '':'btn-info'}[choices[3]]" class="btn btn-lg btn-block" data-ng-click="answer(3)">
+                                        <button data-ng-disabled="question.wait" data-ng-class="{'btn-info':choices[3]=='', 'btn-success':choices[3]==='true', 'btn-danger':choices[3]==='false', 'noclick': question.answered}" class="btn btn-lg btn-block" data-ng-click="answer(3)">
                                             <img src="img/profile.png"/>
                                             <p>{{question.people[3].name}}<br/><span>{{question.people[3].screenName}}</span></p>
                                         </button>
@@ -49,7 +49,7 @@
                             </div>
                         </div>
 
-                        <p>{{question.index + 1}}/10</p>
+                        <p>{{question.index + 1}}/{{question.total}}</p>
                     </div>
                 </div>
             </div>
