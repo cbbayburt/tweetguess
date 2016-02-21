@@ -10,15 +10,15 @@
                     <span class="name">Tweet<span class="text-info">Guess</span></span>
                     <span class="skills">A Twitter <i class="fa fa-twitter"></i> Quiz Game</span>
                     <hr class="star-light"/>
-                    <form action="#">
+                    <form name="userForm" data-ng-submit="$parent.startGame()" novalidate="novalidate">
                         <div class="row control-group text-center">
                             <div class="form-group col-xs-12 col-sm-4 col-sm-offset-4">
-                                <input ng-model="user.username" class="form-control input-lg" type="text" id="username" name="username" placeholder="Your name, please" />
+                                <input data-ng-model="user.username" data-ng-class="{ 'has-error' : userForm.username.$invalid &amp;&amp; !userForm.username.$pristine }" class="form-control input-lg" type="text" id="username" name="username" placeholder="Your name, please" required="required" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-xs-12 col-sm-4 col-sm-offset-4">
-                                <button type="button" data-ng-click="startGame()" class="btn btn-info btn-lg btn-block">Start playing</button>
+                                <button data-ng-disabled="userForm.$invalid" class="btn btn-info btn-lg btn-block">Start playing</button>
                             </div>
                         </div>
                     </form>

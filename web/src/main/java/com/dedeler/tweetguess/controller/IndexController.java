@@ -47,7 +47,7 @@ public class IndexController {
 
     @ModelAttribute
     GamePreferences gamePreferences() {
-        return new GamePreferences(null, new Language("en", "EN", "production"));
+        return new GamePreferences(null, new Language("en", "English", "production"));
     }
 
     @RequestMapping("/")

@@ -4,18 +4,16 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     $scope.view = 'index';
 
     $scope.user = {username: ''};
-    $scope.prefs = {category: {slug: null, name: null}, lang: {code: 'en', name: 'EN'}};
+    $scope.prefs = {category: {slug: null, name: null}, lang: {code: 'en', name: 'English'}};
     $scope.timer = {progress: 0, live: undefined, max: 30000};
     $scope.constants = {numQuestions: 10};
 
     $scope.home = function() {
-        $location.hash('');
         $scope.view = 'index';
     };
 
     $scope.startGame = function () {
         $http.post('initgame', $scope.user).then(function (res) {
-            $location.hash('play');
             $scope.view = 'category';
             $scope.showAllCats = false;
             $scope.categories = res.data.categories;
@@ -114,7 +112,6 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.getLeaderboard = function () {
-        $location.hash('leaderboard');
         $scope.view = 'loading';
         $scope.loadTitle = "Loading leaderboard...";
         $http.get('leaderboard').then(function (res) {
