@@ -122,6 +122,7 @@ public class AppRunner implements ApplicationRunner {
                     tweet.setCategory(person.getCategory());
                     tweet.setLanguage(person.getLanguage());
                     tweet.setPerson(person);
+                    tweet.setValid(true);
                     tweetRepository.save(tweet);
                 }
             } catch(TwitterException e) {
