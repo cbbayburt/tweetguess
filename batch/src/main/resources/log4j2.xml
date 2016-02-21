@@ -40,5 +40,6 @@
             <AppenderRef ref="ERRORFA" level="error" />
         </Root>
         <Logger name="org" level="info" />
+        <Logger name="twitter4j" level="info" />
     </Loggers>
 </Configuration>
