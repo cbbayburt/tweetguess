@@ -13,7 +13,7 @@
                                 <button data-ng-repeat="c in categories | limitTo : (showAllCats ? undefined : 3)" data-ng-click="selectCategory(c)" class="btn btn-info btn-lg btn-block">{{c.name}}</button>
                                 <br/>
                                 <a data-ng-hide="showAllCats || categories.length &lt;= 3" data-ng-click="moreCats()" href="#">More...</a><br/>
-                                {{prefs.lang.name}} | <a href="#">Change region</a>
+                                {{prefs.lang.name}} | <a href="#regionModal" data-toggle="modal">Change region</a>
                             </div>
                         </div>
                     </div>

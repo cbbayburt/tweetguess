@@ -28,6 +28,17 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         $scope.showAllCats = true;
     };
 
+    $scope.selectRegion = function(region) {
+        $scope.prefs.lang = region;
+        $scope.loadTitle = 'Getting categories...';
+        $scope.view = 'loading';
+        $http.post('selectregion', region).then(function(res) {
+            $scope.categories = res.data;
+            $scope.showAllCats = false;
+            $scope.view = 'category';
+        });
+    }
+
     $scope.selectCategory = function (category) {
         $scope.loadTitle = "Starting a new game...";
         $scope.view = 'loading';

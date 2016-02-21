@@ -1,15 +1,43 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default" data-ng-app="tweetguess">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default" data-ng-app="tweetguess">
 <body id="page-top" class="index" data-ng-controller="mainController">
-    <!-- Header -->
-    <th:block layout:fragment="content">
-        <header data-ng-include="view"></header>
-    </th:block>
-    <th:block layout:fragment="templates">
-        <script type="text/ng-template" id="loading" th:include="partial/loading :: content"></script>
-        <script type="text/ng-template" id="question" th:include="partial/question :: content"></script>
-        <script type="text/ng-template" id="category" th:include="partial/category :: content"></script>
-        <script type="text/ng-template" id="index" th:include="partial/index :: content"></script>
-        <script type="text/ng-template" id="leaderboard" th:include="partial/leaderboard :: content"></script>
-    </th:block>
+<!-- Header -->
+<th:block layout:fragment="content">
+    <header data-ng-include="view"></header>
+</th:block>
+<th:block layout:fragment="templates">
+    <script type="text/ng-template" id="loading" th:include="partial/loading :: content"></script>
+    <script type="text/ng-template" id="question" th:include="partial/question :: content"></script>
+    <script type="text/ng-template" id="category" th:include="partial/category :: content"></script>
+    <script type="text/ng-template" id="index" th:include="partial/index :: content"></script>
+    <script type="text/ng-template" id="leaderboard" th:include="partial/leaderboard :: content"></script>
+
+    <!-- Portfolio Modals -->
+    <div class="portfolio-modal modal fade" id="regionModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2>Select Region</h2>
+                            <hr class="star-primary"/>
+                            <div class="row">
+                                <div data-ng-repeat="l in languages" class="col-xs-6 col-sm-4">
+                                    <button class="btn btn-lg btn-info btn-block" data-ng-click="selectRegion(l)" data-dismiss="modal">{{l.name}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
 </body>
 </html>

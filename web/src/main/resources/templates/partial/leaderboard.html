@@ -23,7 +23,7 @@
                                     </tbody>
                                     <tbody>
                                         <tr data-ng-class="{true:'user-score', false:''}[s.user]" data-ng-repeat="s in leaderboard.scores | orderBy: 'rank'">
-                                            <td>{{s.rank}}</td>
+                                            <td>{{s.rank + 1}}</td>
                                             <td>{{s.username}}</td>
                                             <td>{{s.tweets}}</td>
                                             <td>{{s.score}}</td>

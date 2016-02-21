@@ -72,6 +72,7 @@ public class IndexController {
     }
 
     @RequestMapping("/selectregion")
+    @ResponseBody
     public List<Category> selectRegion(@RequestBody Language lang, @ModelAttribute GamePreferences prefs) {
         prefs.setLang(lang);
 
