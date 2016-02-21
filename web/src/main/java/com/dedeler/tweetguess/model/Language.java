@@ -11,9 +11,9 @@ import javax.persistence.Id;
  * Created by Aykut on 20.02.2016.
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Language {
 
     @Id

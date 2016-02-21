@@ -1,5 +1,6 @@
 package com.dedeler.tweetguess.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"language"})
 public class Category {
 
     @Id

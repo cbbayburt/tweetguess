@@ -4,6 +4,8 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -22,7 +24,13 @@ public class Person {
     private Integer followersCount;
     private Integer friendsCount;
     private Integer favouritesCount;
-    private String langId;
-    private String categoryId;
+
+    @OneToOne
+    @JoinColumn(name = "languageId")
+    private Language language;
+
+    @OneToOne
+    @JoinColumn(name = "categoryId")
+    private Category category;
 
 }

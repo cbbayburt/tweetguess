@@ -1,12 +1,12 @@
 package com.dedeler.tweetguess.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -14,16 +14,27 @@ import java.util.Date;
  */
 @Data
 @Entity
+@JsonIgnoreProperties({"createdAt","favoriteCount", "retweetCount", "category", "language", "person"})
 public class Tweet {
 
     @Id
     private Long id;
+
     private Date createdAt;
     private String text;
     private Integer favoriteCount;
     private Long retweetCount;
-    private String langId;
-    private String categoryId;
-    private Long personId;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "languageId")
+    private Language language;
+
+    @ManyToOne
+    @JoinColumn(name = "personId")
+    private Person person;
 
 }
