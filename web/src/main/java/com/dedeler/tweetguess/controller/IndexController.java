@@ -59,6 +59,7 @@ public class IndexController {
 
         userService.save(userPrefs.getUser());
         model.addAttribute(userPrefs.getUser());
+        model.addAttribute(new Game());
 
         return new LangCategory(categoryService.getShuffledCategoriesByLang(userPrefs.getPreferences().getLang()), languageService.getLanguagesOrderByName());
     }
