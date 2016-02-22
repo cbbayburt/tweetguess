@@ -79,9 +79,7 @@ public class AppRunner implements ApplicationRunner {
                     exceptionStatus = false;
                     Category category = dozerBeanMapper.map(tgtCategory, Category.class);
                     category.setLanguage(language);
-                    if(categoryRepository.findBySlugAndNameAndSizeAndLanguage(tgtCategory.getSlug(), tgtCategory.getName(), tgtCategory.getSize(), language) == null) {
-                        categoryRepository.save(category);
-                    }
+                    categoryRepository.save(category);
                     handlePerson(category);
                 }
             } catch(TwitterException e) {
