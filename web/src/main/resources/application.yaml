@@ -14,6 +14,7 @@ spring:
     show-sql: false
     hibernate:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
@@ -27,7 +28,7 @@ spring:
 
 h2:
   server:
-    start: true
+    start: false
 
 # ===============================
 # = SERVER
