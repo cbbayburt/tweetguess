@@ -7,6 +7,7 @@ import com.dedeler.tweetguess.repository.QuestionRepository;
 import com.dedeler.tweetguess.repository.TweetRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -20,10 +21,11 @@ import java.util.*;
 @Service
 public class GameService {
 
-    public static final long QUESTION_TIME_LIMIT_MILLIS = 10000l;
-    public static final int QUESTION_MAX_SCORE = 500;
-    public static final int QUESTIONS_PER_GAME = 10;
-    public static final int LEADERBOARD_SIZE = 10;
+    @Value("${tweetguess.questionPerGame}")
+    private Integer QUESTIONS_PER_GAME;
+
+    @Value("${tweetguess.leaderBoardSize}")
+    private Integer LEADERBOARD_SIZE;
 
     @Autowired
     private TweetRepository tweetRepository;
@@ -63,7 +65,7 @@ public class GameService {
 
             Collections.shuffle(choiceList);
             Integer correctAnswerIndex = choiceList.indexOf(tweetList.get(i).getPerson());
-            questionList.add(new Question(null, tweetList.get(i), i, choiceList, null));
+            questionList.add(new Question(null, tweetList.get(i), null, choiceList, null));
             answerMap.put(i, correctAnswerIndex);
         }
 

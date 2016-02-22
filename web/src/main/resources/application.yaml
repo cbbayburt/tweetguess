@@ -30,6 +30,12 @@ h2:
   server:
     start: false
 
+tweetguess:
+  questionTimeLimitMilis: 20000
+  questionMaxScore: 500
+  questionPerGame: 10
+  leaderBoardSize: 10
+
 # ===============================
 # = SERVER
 # ===============================

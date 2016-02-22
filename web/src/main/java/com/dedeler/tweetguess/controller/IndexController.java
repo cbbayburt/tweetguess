@@ -6,6 +6,7 @@ import com.dedeler.tweetguess.service.GameService;
 import com.dedeler.tweetguess.service.LanguageService;
 import com.dedeler.tweetguess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,15 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
+    @Value("${tweetguess.questionPerGame}")
+    private Integer QUESTIONS_PER_GAME;
+
+    @Value("${tweetguess.questionMaxScore}")
+    private Integer QUESTION_MAX_SCORE;
+
+    @Value("${tweetguess.questionTimeLimitMilis}")
+    private Integer QUESTION_TIME_LIMIT_MILLIS;
+
     @ModelAttribute
     Game game() {
         return new Game();
@@ -47,8 +57,8 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(Model model){
-        model.addAttribute("questionsPerGame", GameService.QUESTIONS_PER_GAME);
-        model.addAttribute("timeLimitMillis", GameService.QUESTION_TIME_LIMIT_MILLIS);
+        model.addAttribute("questionsPerGame", QUESTIONS_PER_GAME);
+        model.addAttribute("timeLimitMillis", QUESTION_TIME_LIMIT_MILLIS);
         return "index";
     }
 
@@ -84,7 +94,7 @@ public class IndexController {
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
 
-        if(currentQuestionIndex == GameService.QUESTIONS_PER_GAME) {
+        if(currentQuestionIndex == QUESTIONS_PER_GAME) {
             game.setEndTime(LocalDateTime.now());
             gameService.save(game);
             return null;
@@ -100,7 +110,7 @@ public class IndexController {
     @ResponseBody
     public AnswerResult answer(@RequestBody Answer answer, @ModelAttribute Game game) {
         Long time = Instant.now().toEpochMilli() - game.getCurrentQuestion().getStartTime();
-        if(time > GameService.QUESTION_TIME_LIMIT_MILLIS)
+        if(time > QUESTION_TIME_LIMIT_MILLIS)
             return null;
 
         int correct = game.getAnswerMap().get(game.getCurrentQuestion().getIndex());
@@ -115,7 +125,7 @@ public class IndexController {
     }
 
     private int calculateScore(long time) {
-        return (int)(GameService.QUESTION_MAX_SCORE - (time * GameService.QUESTION_MAX_SCORE / GameService.QUESTION_TIME_LIMIT_MILLIS));
+        return (int)(QUESTION_MAX_SCORE - (time * QUESTION_MAX_SCORE / QUESTION_TIME_LIMIT_MILLIS));
     }
 
     @RequestMapping("/leaderboard")
