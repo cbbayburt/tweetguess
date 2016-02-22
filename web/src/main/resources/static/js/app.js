@@ -13,6 +13,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.startGame = function () {
+        $scope.stopTimer();
         $http.post('initgame', {user: $scope.user, preferences: $scope.prefs }).then(function (res) {
             $scope.view = 'category';
             $scope.showAllCats = false;
@@ -112,6 +113,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.getLeaderboard = function () {
+        $scope.stopTimer();
         $scope.view = 'loading';
         $scope.loadTitle = "Loading leaderboard...";
         $http.get('leaderboard').then(function (res) {
