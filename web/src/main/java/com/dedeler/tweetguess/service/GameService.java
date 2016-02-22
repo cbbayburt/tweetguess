@@ -65,7 +65,7 @@ public class GameService {
 
             Collections.shuffle(choiceList);
             Integer correctAnswerIndex = choiceList.indexOf(tweetList.get(i).getPerson());
-            questionList.add(new Question(null, tweetList.get(i), null, choiceList, null));
+            questionList.add(new Question(null, tweetList.get(i), i, choiceList, null));
             answerMap.put(i, correctAnswerIndex);
         }
 
