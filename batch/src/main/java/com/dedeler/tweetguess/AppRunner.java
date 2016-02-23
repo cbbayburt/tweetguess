@@ -12,6 +12,7 @@ import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -48,6 +49,9 @@ public class AppRunner implements ApplicationRunner {
     @Autowired
     private TweetRepository tweetRepository;
 
+    @Value("${tweetguess.choiceListSize}")
+    private Integer CHOICE_LIST_SIZE;
+
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
         handleLanguage();
@@ -76,7 +80,7 @@ public class AppRunner implements ApplicationRunner {
         do {
             try {
                 for(twitter4j.Category tgtCategory : tweetGuessTwitter.getSuggestedUserCategories(language.getCode())) {
-                    if(tgtCategory.getSize() != 0) {
+                    if(tgtCategory.getSize() >= CHOICE_LIST_SIZE) {
                         exceptionStatus = false;
                         Category category = dozerBeanMapper.map(tgtCategory, Category.class);
                         category.setLanguage(language);

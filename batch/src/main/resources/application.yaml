@@ -28,6 +28,9 @@ twitter:
   access-token: 414252605-Sf0Wr0p8U6XxucRtvduJ0wrBpAi9QvAUHHwF8wyJ
   access-token-secret: WgkJ5GR9yPXAtHrPY4ZCBo8WexQWtG3MPR7UUOoSisfqI
 
+tweetguess:
+  choiceListSize: 4
+
 # ===============================
 # = DEVELOPMENT
 # ===============================
