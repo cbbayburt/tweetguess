@@ -35,6 +35,7 @@ tweetguess:
   questionMaxScore: 500
   questionPerGame: 10
   leaderBoardSize: 10
+  choiceListSize: 4
 
 # ===============================
 # = SERVER

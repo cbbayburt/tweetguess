@@ -27,6 +27,9 @@ public class GameService {
     @Value("${tweetguess.leaderBoardSize}")
     private Integer LEADERBOARD_SIZE;
 
+    @Value("${tweetguess.choiceListSize}")
+    private Integer CHOICE_LIST_SIZE;
+
     @Autowired
     private TweetRepository tweetRepository;
 
@@ -52,11 +55,11 @@ public class GameService {
         List<Question> questionList = new ArrayList<>();
         Map<Integer, Integer> answerMap = new HashMap<>();
         Random random = new Random();
-        for(int i=0; i<QUESTIONS_PER_GAME; i++) {
+        for(int i = 0; i < QUESTIONS_PER_GAME; i++) {
             Person correctPerson = tweetList.get(i).getPerson();
             List<Person> choiceList = new ArrayList<>();
             choiceList.add(correctPerson);
-            while(choiceList.size() < 4 && choiceList.size()!=personList.size()) {
+            while(choiceList.size() < CHOICE_LIST_SIZE) {
                 Integer index = random.nextInt(personList.size()-1);
                 if(!choiceList.contains(personList.get(index))) {
                     choiceList.add(personList.get(index));
@@ -83,24 +86,24 @@ public class GameService {
         Integer leaderBoardSize = Math.min(LEADERBOARD_SIZE, weeklyScoreList.size());
         List<Score> scores = new ArrayList<>();
         boolean isUserOnTopList = false;
-        for(int i=0; i<leaderBoardSize; i++) {
-            Object[] summedScore = weeklyScoreList.get(i);
+        for(int i = 0; i < leaderBoardSize; i++) {
+            Object[] userScoreInfo = weeklyScoreList.get(i);
 
-            String username = ((User) summedScore[0]).getUsername();
-            boolean isCurrentUser = (currentUser != null && StringUtils.isNotBlank(currentUser.getUsername())) && currentUser.getUsername().equals(username);
+            String username = ((User) userScoreInfo[0]).getUsername();
+            boolean isCurrentUser = currentUser != null && currentUser.getUsername().equals(username);
             if(isCurrentUser && !isUserOnTopList) {
                 isUserOnTopList = true;
             }
 
-            Score score = new Score(username, isCurrentUser, i, Integer.valueOf(summedScore[1].toString()), Integer.valueOf(summedScore[2].toString()));
+            Score score = new Score(username, isCurrentUser, i, Integer.valueOf(userScoreInfo[1].toString()), Integer.valueOf(userScoreInfo[2].toString()));
             scores.add(score);
         }
 
         if(!isUserOnTopList && currentUser!=null && StringUtils.isNotBlank(currentUser.getUsername())) {
-            for(int i=LEADERBOARD_SIZE; i<weeklyScoreList.size(); i++) {
-                Object[] summedScore = weeklyScoreList.get(i);
-                if(currentUser.getUsername().equals(((User) summedScore[0]).getUsername())) {
-                    scores.add(new Score(currentUser.getUsername(), true, i, Integer.valueOf(summedScore[1].toString()), Integer.valueOf(summedScore[2].toString())));
+            for(int i = LEADERBOARD_SIZE; i < weeklyScoreList.size(); i++) {
+                Object[] userScoreInfo = weeklyScoreList.get(i);
+                if(currentUser.getUsername().equals(((User) userScoreInfo[0]).getUsername())) {
+                    scores.add(new Score(currentUser.getUsername(), true, i, Integer.valueOf(userScoreInfo[1].toString()), Integer.valueOf(userScoreInfo[2].toString())));
                     break;
                 }
             }
