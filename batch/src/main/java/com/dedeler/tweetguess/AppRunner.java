@@ -58,10 +58,12 @@ public class AppRunner implements ApplicationRunner {
         do {
             try {
                 for(HelpResources.Language tgtLanguage : tweetGuessTwitter.getLanguages()) {
-                    exceptionStatus = false;
-                    Language language = dozerBeanMapper.map(tgtLanguage, Language.class);
-                    languageRepository.save(language);
-                    handleCategory(language);
+                    if(tgtLanguage.getCode().equals("ar")) {
+                        exceptionStatus = false;
+                        Language language = dozerBeanMapper.map(tgtLanguage, Language.class);
+                        languageRepository.save(language);
+                        handleCategory(language);
+                    }
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
@@ -76,11 +78,13 @@ public class AppRunner implements ApplicationRunner {
         do {
             try {
                 for(twitter4j.Category tgtCategory : tweetGuessTwitter.getSuggestedUserCategories(language.getCode())) {
-                    exceptionStatus = false;
-                    Category category = dozerBeanMapper.map(tgtCategory, Category.class);
-                    category.setLanguage(language);
-                    categoryRepository.save(category);
-                    handlePerson(category);
+                    if(tgtCategory.getSize() != 0) {
+                        exceptionStatus = false;
+                        Category category = dozerBeanMapper.map(tgtCategory, Category.class);
+                        category.setLanguage(language);
+                        categoryRepository.save(category);
+                        handlePerson(category);
+                    }
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
