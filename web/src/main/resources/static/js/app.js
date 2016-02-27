@@ -13,6 +13,10 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.startGame = function () {
+        if($scope.user.username == '') {
+            $scope.view = 'index';
+            return;
+        }
         $scope.stopTimer();
         $http.post('initgame', {user: $scope.user, preferences: $scope.prefs }).then(function (res) {
             $scope.view = 'category';

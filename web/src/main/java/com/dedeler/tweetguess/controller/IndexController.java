@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +67,9 @@ public class IndexController {
     @ResponseBody
     public LangCategory initGame(@RequestBody UserPreferences userPrefs, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
+
+        if(StringUtils.isEmpty(userPrefs.getUser().getUsername()))
+            throw new UnauthorizedException();
 
         userService.save(userPrefs.getUser());
         model.addAttribute(userPrefs.getUser());
