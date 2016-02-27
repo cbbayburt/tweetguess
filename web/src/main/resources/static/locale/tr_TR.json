@@ -1,0 +1,14 @@
+{
+  "LOAD_CATEGORIES": "KATEGORİLER YÜKLENİYOR...",
+  "LOAD_GAME": "YENİ OYUN BAŞLATILIYOR...",
+  "LOAD_LEADERBOARD": "PUAN TABLOSU YÜKLENİYOR...",
+
+  "QUESTION_SAVE": "Puan kaydediliyor...",
+  "QUESTION_NEXT": "Sıradaki soru...",
+  "QUESTION_IDLE": "Bu tweet kimin?",
+
+  "QUESTION_CHECK": "Kontrol ediliyor...",
+  "QUESTION_TIMEOUT": "Süre doldu.",
+  "QUESTION_CORRECT": "Doğru!",
+  "QUESTION_WRONG": "Yanlış!"
+}

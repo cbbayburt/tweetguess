@@ -6,19 +6,19 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-text">
-                        <span class="name">Leaderboard</span>
+                        <span class="name" th:text="#{leaderboard.title}">Leaderboard</span>
                         <hr class="star-light"/>
-                        <span class="skills">Weekly Top Scores</span>
+                        <span class="skills" th:text="#{leaderboard.subtitle}">Weekly Top Scores</span>
                         <div style="height: 40px;"></div>
                         <div class="row">
                             <div class="col-sm-12 col-md-8 col-md-offset-2">
                                 <table class="table table-condensed">
                                     <tbody>
                                         <tr>
-                                            <th class="text-center"># Rank</th>
-                                            <th class="text-center">User</th>
-                                            <th class="text-center">Correct guesses</th>
-                                            <th class="text-center">Score</th>
+                                            <th class="text-center" th:text="#{leaderboard.cols.rank}"># Rank</th>
+                                            <th class="text-center" th:text="#{leaderboard.cols.user}">User</th>
+                                            <th class="text-center" th:text="#{leaderboard.cols.correct}">Correct guesses</th>
+                                            <th class="text-center" th:text="#{leaderboard.cols.score}">Score</th>
                                         </tr>
                                     </tbody>
                                     <tbody>
@@ -35,7 +35,7 @@
                         <div style="height:60px;"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-                                <button data-ng-click="startGame()" class="btn btn-info btn-lg btn-block">Play Now</button>
+                                <button data-ng-click="startGame()" class="btn btn-info btn-lg btn-block" th:text="#{leaderboard.play}">Play Now</button>
                             </div>
                         </div>
                     </div>

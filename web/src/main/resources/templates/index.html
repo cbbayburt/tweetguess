@@ -11,8 +11,16 @@
     <script type="text/ng-template" id="category" th:include="partial/category :: content"></script>
     <script type="text/ng-template" id="index" th:include="partial/index :: content"></script>
     <script type="text/ng-template" id="leaderboard" th:include="partial/leaderboard :: content"></script>
+    <script th:inline="javascript">
+        app.config(['$translateProvider', function($translateProvider) {
+            $translateProvider.useStaticFilesLoader({
+            prefix: '/locale/',
+            suffix: '.json'
+            });
+            $translateProvider.preferredLanguage([[${#locale.toString()}]]);
+        }]);
+    </script>
 
-    <!-- Portfolio Modals -->
     <div class="portfolio-modal modal fade" id="regionModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -25,11 +33,37 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h2>Select Region</h2>
+                            <h2 th:text="#{modals.selectregion}">Select Region</h2>
                             <hr class="star-primary"/>
                             <div class="row">
-                                <div data-ng-repeat="l in languages" class="col-xs-6 col-sm-4">
+                                <div data-ng-repeat="l in regions" class="col-xs-6 col-sm-4">
                                     <button class="btn btn-lg btn-info btn-block" data-ng-click="selectRegion(l)" data-dismiss="modal">{{l.name}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-modal modal fade" id="langModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <h2 th:text="#{modals.selectlanguage}">Select Language</h2>
+                            <hr class="star-primary"/>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-4" th:each="l : ${locales}">
+                                    <a th:disabled="${#locale.toString().equals(l.key)}" class="btn btn-lg btn-info btn-block" th:href="${'?lang=' + l.key}" th:text="${l.value}">English</a>
                                 </div>
                             </div>
                         </div>

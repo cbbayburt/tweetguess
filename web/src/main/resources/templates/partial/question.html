@@ -6,13 +6,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-text">
-                        <span class="skills">{{question.title}}<strong data-ng-show="question.score > 0" class="question-score text-default">+{{question.score}} pts</strong></span>
+                        <span class="skills">{{question.title | translate}}<strong data-ng-show="question.score > 0" class="question-score text-default">+{{question.score}}</strong></span>
                         <div style="height: 20px;"></div>
                         <div class="row">
                             <div class="col-sm-12 col-md-8 col-md-offset-2">
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped" data-ng-class="{'active': timer.live, 'progress-bar-info': timer.progress &lt; 80, 'progress-bar-warning': timer.progress &gt;= 80, 'progress-bar-danger': timer.progress &gt;= 100 &amp;&amp; !timer.live}" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" data-ng-style="{width: timer.progress + '%'}" style="width: 60%;">
-                                        <span class="sr-only">60% Complete</span>
+                                        <span class="sr-only">60%</span>
                                     </div>
                                 </div>
                                 <div class="jumbotron">&ldquo;<span id="tweet">{{question.tweet.text}}</span>&rdquo;</div>

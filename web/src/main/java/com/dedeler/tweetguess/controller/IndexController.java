@@ -1,5 +1,6 @@
 package com.dedeler.tweetguess.controller;
 
+import com.dedeler.tweetguess.config.LocaleCollection;
 import com.dedeler.tweetguess.model.*;
 import com.dedeler.tweetguess.service.CategoryService;
 import com.dedeler.tweetguess.service.GameService;
@@ -7,16 +8,19 @@ import com.dedeler.tweetguess.service.LanguageService;
 import com.dedeler.tweetguess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * @author Can Bulut Bayburt
@@ -36,6 +40,12 @@ public class IndexController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LocaleCollection localeCollection;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Value("${tweetguess.questionPerGame}")
     private Integer QUESTIONS_PER_GAME;
@@ -60,14 +70,14 @@ public class IndexController {
     public String index(Model model){
         model.addAttribute("questionsPerGame", QUESTIONS_PER_GAME);
         model.addAttribute("timeLimitMillis", QUESTION_TIME_LIMIT_MILLIS);
+        model.addAttribute("locales", getLanguages());
+
         return "index";
     }
 
     @RequestMapping("/initgame")
     @ResponseBody
     public LangCategory initGame(@RequestBody UserPreferences userPrefs, Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-
         if(StringUtils.isEmpty(userPrefs.getUser().getUsername()))
             throw new UnauthorizedException();
 
@@ -136,6 +146,15 @@ public class IndexController {
     @ResponseBody
     public Leaderboard getLeaderboard(@ModelAttribute User user) {
         return gameService.getWeeklyLeaderboard(user);
+    }
+
+    private Map<String, String> getLanguages() {
+        Map<String, String> map = new HashMap<>();
+        for(Locale l : localeCollection) {
+            map.put(l.toString(), messageSource.getMessage("lang", null, l));
+        }
+
+        return map;
     }
 
 }

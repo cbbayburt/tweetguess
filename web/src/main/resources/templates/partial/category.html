@@ -6,14 +6,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="intro-text">
-                        <span class="name">Select a category</span>
+                        <span class="name" th:text="#{category.selectcategory}">Select a category</span>
                         <div style="height: 60px;"></div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-4 col-sm-offset-4">
                                 <button data-ng-repeat="c in categories | limitTo : (showAllCats ? undefined : 3)" data-ng-click="selectCategory(c)" class="btn btn-info btn-lg btn-block">{{c.name}}</button>
                                 <br/>
-                                <a data-ng-hide="showAllCats || categories.length &lt;= 3" data-ng-click="moreCats()" href="#">More...</a><br/>
-                                {{prefs.lang.name}} | <a href="#regionModal" data-toggle="modal">Change region</a>
+                                <a data-ng-hide="showAllCats || categories.length &lt;= 3" data-ng-click="moreCats()" href="#" th:text="#{category.more}">More...</a><br/>
+                                {{prefs.lang.name}} | <a href="#regionModal" data-toggle="modal" th:text="#{category.changeregion}">Change region</a>
                             </div>
                         </div>
                     </div>
