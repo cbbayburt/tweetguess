@@ -3,10 +3,7 @@ package com.dedeler.tweetguess.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -21,6 +18,8 @@ public class Tweet {
     private Long id;
 
     private Date createdAt;
+
+    @Column(length = 4000)
     private String text;
     private Integer favoriteCount;
     private Long retweetCount;
