@@ -2,10 +2,7 @@ package com.dedeler.tweetguess.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -26,11 +23,10 @@ public class Person {
     private Integer favouritesCount;
 
     @OneToOne
-    @JoinColumn(name = "languageId")
-    private Language language;
-
-    @OneToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumns({
+            @JoinColumn(name = "languageId"),
+            @JoinColumn(name = "slug")
+    })
     private Category category;
 
 }

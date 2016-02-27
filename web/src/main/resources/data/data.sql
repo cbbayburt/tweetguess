@@ -4,24 +4,24 @@ insert into language (code, name, status)
   values ('tr', 'Turkish', 'production');
 insert into language (code, name, status)
   values ('fr', 'French', 'production');
-insert into category (id, slug, name, size, language_Id)
-  values (1, 'music', 'Music', 15, 'en');
-insert into category (id, slug, name, size, language_Id)
-  values (2, 'sports', 'Sport', 15, 'en');
-insert into category (id, slug, name, size, language_Id)
-  values (3, 'politics', 'Politic', 15, 'en');
-insert into category (id, slug, name, size, language_Id)
-  values (4, 'musicf', 'Music', 15, 'fr');
-insert into category (id, slug, name, size, language_Id)
-  values (5, 'sportsf', 'Sport', 15, 'fr');
-insert into category (id, slug, name, size, language_Id)
-  values (6, 'politics', 'Politic', 15, 'fr');
-insert into category (id, slug, name, size, language_Id)
-  values (7, 'music', 'Muzik', 15, 'tr');
-insert into category (id, slug, name, size, language_Id)
-  values (8, 'sports', 'Spor', 15, 'tr');
-insert into category (id, slug, name, size, language_Id)
-  values (9, 'politicst', 'Politika', 15, 'tr');
+insert into category (slug, name, size, language_Id)
+  values ('music', 'Music', 15, 'en');
+insert into category (slug, name, size, language_Id)
+  values ('sports', 'Sport', 15, 'en');
+insert into category (slug, name, size, language_Id)
+  values ('politics', 'Politic', 15, 'en');
+insert into category (slug, name, size, language_Id)
+  values ('musicf', 'Music', 15, 'fr');
+insert into category (slug, name, size, language_Id)
+  values ('sportsf', 'Sport', 15, 'fr');
+insert into category (slug, name, size, language_Id)
+  values ('politics', 'Politic', 15, 'fr');
+insert into category (slug, name, size, language_Id)
+  values ('music', 'Muzik', 15, 'tr');
+insert into category (slug, name, size, language_Id)
+  values ('sports', 'Spor', 15, 'tr');
+insert into category (slug, name, size, language_Id)
+  values ('politicst', 'Politika', 15, 'tr');
 insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)
   values (237448180, 'Devrim Yasar', 'devrimyasar', 'http://pbs.twimg.com/profile_images/378800000863144334/uZWGPcJz_normal.jpeg', 'http://t.co/btPeg0c2dr', 'false', 1890, 225, 115, 'en', 1);
 insert into person (id, name, screen_Name, profile_imageurl, url, is_Protected, followers_Count, friends_Count, favourites_Count, language_Id, category_Id)

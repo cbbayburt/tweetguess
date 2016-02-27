@@ -6,27 +6,36 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Aykut on 20.02.2016.
  */
 @Data
 @Entity
+@IdClass(Category.CategoryId.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties({"language"})
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
     private String slug;
+
+    @Id
+    private String languageId;
+
+    @ManyToOne
+    @JoinColumn(updatable = false, insertable = false, name = "languageId")
+    private Language language;
+
     private String name;
     private Integer size;
 
-    @ManyToOne
-    @JoinColumn(name = "languageId")
-    private Language language;
+    @Data
+    static class CategoryId implements Serializable {
+        private String slug;
+        private String languageId;
+    }
 
 }

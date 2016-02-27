@@ -79,6 +79,7 @@ public class AppRunner implements ApplicationRunner {
                     if(tgtCategory.getSize() != 0) {
                         exceptionStatus = false;
                         Category category = dozerBeanMapper.map(tgtCategory, Category.class);
+                        category.setLanguageId(language.getCode());
                         category.setLanguage(language);
                         categoryRepository.save(category);
                         handlePerson(category);
@@ -100,7 +101,6 @@ public class AppRunner implements ApplicationRunner {
                     exceptionStatus = false;
                     Person person = dozerBeanMapper.map(tgtUser, Person.class);
                     person.setCategory(category);
-                    person.setLanguage(category.getLanguage());
                     personRepository.save(person);
                     handleTweet(person);
                 }
@@ -120,7 +120,6 @@ public class AppRunner implements ApplicationRunner {
                     exceptionStatus = false;
                     Tweet tweet = dozerBeanMapper.map(tgtStatus, Tweet.class);
                     tweet.setCategory(person.getCategory());
-                    tweet.setLanguage(person.getLanguage());
                     tweet.setPerson(person);
                     tweet.setValid(true);
                     tweetRepository.save(tweet);

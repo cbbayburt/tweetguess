@@ -25,12 +25,11 @@ public class Tweet {
     private Long retweetCount;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumns({
+            @JoinColumn(name = "languageId"),
+            @JoinColumn(name = "slug")
+    })
     private Category category;
-
-    @ManyToOne
-    @JoinColumn(name = "languageId")
-    private Language language;
 
     @ManyToOne
     @JoinColumn(name = "personId")

@@ -49,7 +49,7 @@ public class GameService {
 
     public Game createNewGame(GamePreferences gamePreferences, User user) {
         Integer tweetCount = tweetRepository.countByCategoryAndValid(gamePreferences.getCategory(), true);
-        List<Tweet> tweetList = tweetRepository.getGeoRandomizedTweetsByCategoryAndValid(gamePreferences.getCategory().getId(), user.getUsername(), getRandomNumbers(tweetCount), true);
+        List<Tweet> tweetList = tweetRepository.getGeoRandomizedTweetsByCategoryAndValid(gamePreferences.getCategory().getSlug(), gamePreferences.getLang().getCode(), user.getUsername(), getRandomNumbers(tweetCount), true);
         List<Person> personList = personRepository.findByCategory(gamePreferences.getCategory());
 
         List<Question> questionList = new ArrayList<>();
@@ -73,7 +73,7 @@ public class GameService {
         }
 
         LocalDate firstDayOfWeek = LocalDateTime.now().with(DayOfWeek.MONDAY).toLocalDate();
-        Game game = new Game(null, LocalDateTime.now(), null, user, gamePreferences.getCategory(), gamePreferences.getLang(), questionList, answerMap, null, 0, 0, firstDayOfWeek);
+        Game game = new Game(null, LocalDateTime.now(), null, user, gamePreferences.getCategory(), questionList, answerMap, null, 0, 0, firstDayOfWeek);
 
         return game;
     }

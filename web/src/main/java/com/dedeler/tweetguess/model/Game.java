@@ -31,12 +31,11 @@ public class Game {
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumns({
+            @JoinColumn(name = "languageId"),
+            @JoinColumn(name = "slug")
+    })
     private Category category;
-
-    @OneToOne
-    @JoinColumn(name = "languageId")
-    private Language language;
 
     @OneToMany
     @JoinColumn(name = "gameId")
