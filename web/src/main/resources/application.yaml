@@ -62,3 +62,8 @@ spring:
   h2:
     console:
       enabled: true
+h2:
+  server:
+    start: true
+tweetguess:
+  questionPerGame: 3
