@@ -1,5 +1,6 @@
 package com.dedeler.tweetguess.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
  */
 @Data
 @Entity
+@JsonIgnoreProperties("category")
 public class Person {
 
     @Id
