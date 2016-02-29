@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Data
 @Entity
-@JsonIgnoreProperties({"createdAt","favoriteCount", "retweetCount", "category", "language", "person"})
+@JsonIgnoreProperties({"createdAt","favoriteCount", "retweetCount", "person", "valid"})
 public class Tweet {
 
     @Id
@@ -23,13 +23,6 @@ public class Tweet {
     private String text;
     private Integer favoriteCount;
     private Long retweetCount;
-
-    @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name = "languageId"),
-            @JoinColumn(name = "slug")
-    })
-    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "personId")

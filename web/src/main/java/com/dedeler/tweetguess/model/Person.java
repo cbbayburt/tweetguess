@@ -3,6 +3,7 @@ package com.dedeler.tweetguess.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -22,11 +23,13 @@ public class Person {
     private Integer friendsCount;
     private Integer favouritesCount;
 
-    @OneToOne
-    @JoinColumns({
-            @JoinColumn(name = "languageId"),
-            @JoinColumn(name = "slug")
-    })
-    private Category category;
+    @ManyToMany
+    @JoinTable(name = "categoryPersonLk",
+            joinColumns = @JoinColumn(name = "personId"),
+            inverseJoinColumns = {
+                    @JoinColumn(name = "languageId"),
+                    @JoinColumn(name = "slug")
+            })
+    private List<Category> category;
 
 }
