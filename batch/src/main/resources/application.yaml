@@ -5,7 +5,7 @@ spring:
   application:
     name: tweetguess-batch
   profiles:
-    active: development
+    active: production
   jpa:
     show-sql: false
     hibernate:
