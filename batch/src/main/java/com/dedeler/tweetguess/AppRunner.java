@@ -21,6 +21,8 @@ import twitter4j.TwitterException;
 import twitter4j.User;
 import twitter4j.api.HelpResources;
 
+import java.util.Arrays;
+
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -100,7 +102,7 @@ public class AppRunner implements ApplicationRunner {
                 for(User tgtUser : tweetGuessTwitter.getUserSuggestions(category.getSlug(), category.getLanguage().getCode())) {
                     exceptionStatus = false;
                     Person person = dozerBeanMapper.map(tgtUser, Person.class);
-                    person.setCategory(category);
+                    person.setCategory(Arrays.asList(category));
                     personRepository.save(person);
                     handleTweet(person);
                 }
@@ -119,7 +121,6 @@ public class AppRunner implements ApplicationRunner {
                 for(Status tgtStatus : tweetGuessTwitter.getUserTimeline(person.getId())) {
                     exceptionStatus = false;
                     Tweet tweet = dozerBeanMapper.map(tgtStatus, Tweet.class);
-                    tweet.setCategory(person.getCategory());
                     tweet.setPerson(person);
                     tweet.setValid(true);
                     tweetRepository.save(tweet);
