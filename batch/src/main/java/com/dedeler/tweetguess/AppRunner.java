@@ -1,5 +1,6 @@
 package com.dedeler.tweetguess;
 
+import com.dedeler.tweetguess.config.LanguageListConfig;
 import com.dedeler.tweetguess.model.Category;
 import com.dedeler.tweetguess.model.Language;
 import com.dedeler.tweetguess.model.Person;
@@ -50,6 +51,9 @@ public class AppRunner implements ApplicationRunner {
     @Autowired
     private TweetRepository tweetRepository;
 
+    @Autowired
+    private LanguageListConfig languageListConfig;
+
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
         handleLanguage();
@@ -60,10 +64,12 @@ public class AppRunner implements ApplicationRunner {
         do {
             try {
                 for(HelpResources.Language tgtLanguage : tweetGuessTwitter.getLanguages()) {
-                    exceptionStatus = false;
-                    Language language = dozerBeanMapper.map(tgtLanguage, Language.class);
-                    languageRepository.save(language);
-                    handleCategory(language);
+                    if(languageListConfig.getLanguageList() == null || languageListConfig.getLanguageList().contains(tgtLanguage.getCode())) {
+                        exceptionStatus = false;
+                        Language language = dozerBeanMapper.map(tgtLanguage, Language.class);
+                        languageRepository.save(language);
+                        handleCategory(language);
+                    }
                 }
             } catch(TwitterException e) {
                 exceptionStatus = true;
