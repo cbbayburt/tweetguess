@@ -22,6 +22,10 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
             return;
         }
         $scope.stopTimer();
+        $scope.loadTitle = "LOAD_CATEGORIES";
+        $scope.view = 'loading';
+        $anchorScroll('page-top');
+
         $http.post('initgame', {user: $scope.user, preferences: $scope.prefs }).then(function (res) {
             $scope.view = 'category';
             $scope.showAllCats = false;
