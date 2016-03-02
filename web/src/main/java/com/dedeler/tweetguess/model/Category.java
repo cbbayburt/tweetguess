@@ -20,9 +20,11 @@ import java.io.Serializable;
 public class Category {
 
     @Id
+    @Column(length = 80)
     private String slug;
 
     @Id
+    @Column(length = 80)
     private String languageId;
 
     @ManyToOne

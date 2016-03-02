@@ -2,6 +2,7 @@ package com.dedeler.tweetguess.model;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 public class User {
 
     @Id
+    @Column(length = 80)
     private String username;
 
 }
