@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Aykut on 20.02.2016.
@@ -32,6 +32,6 @@ public class Person {
                     @JoinColumn(name = "languageId"),
                     @JoinColumn(name = "slug")
             })
-    private List<Category> category;
+    private Set<Category> category;
 
 }

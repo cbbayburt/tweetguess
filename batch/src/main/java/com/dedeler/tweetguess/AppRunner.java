@@ -9,6 +9,7 @@ import com.dedeler.tweetguess.repository.CategoryRepository;
 import com.dedeler.tweetguess.repository.LanguageRepository;
 import com.dedeler.tweetguess.repository.PersonRepository;
 import com.dedeler.tweetguess.repository.TweetRepository;
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,8 @@ import twitter4j.User;
 import twitter4j.api.HelpResources;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -64,7 +67,7 @@ public class AppRunner implements ApplicationRunner {
         do {
             try {
                 for(HelpResources.Language tgtLanguage : tweetGuessTwitter.getLanguages()) {
-                    if(languageListConfig.getLanguageList() == null || languageListConfig.getLanguageList().contains(tgtLanguage.getCode())) {
+                    if(CollectionUtils.isEmpty(languageListConfig.getLanguageList()) || languageListConfig.getLanguageList().contains(tgtLanguage.getCode())) {
                         exceptionStatus = false;
                         Language language = dozerBeanMapper.map(tgtLanguage, Language.class);
                         languageRepository.save(language);
@@ -108,7 +111,12 @@ public class AppRunner implements ApplicationRunner {
                 for(User tgtUser : tweetGuessTwitter.getUserSuggestions(category.getSlug(), category.getLanguage().getCode())) {
                     exceptionStatus = false;
                     Person person = dozerBeanMapper.map(tgtUser, Person.class);
-                    person.setCategory(Arrays.asList(category));
+                    Set<Category> categorySet = new HashSet<>(Arrays.asList(category));
+                    Person persistedPerson = personRepository.findOneFullLoad(person.getId());
+                    if(persistedPerson != null) {
+                        categorySet.addAll(persistedPerson.getCategory());
+                    }
+                    person.setCategory(categorySet);
                     personRepository.save(person);
                     handleTweet(person);
                 }
