@@ -20,7 +20,7 @@ spring:
   datasource:
     testOnBorrow: true
     validationQuery: SELECT 1
-    url: jdbc:mysql://localhost:3306/tweetguessdb?useUnicode=yes&character_set_client=utf8mb4&character_set_connection=utf8mb4&character_set_results=utf8mb4&collation_connection=utf8mb4_general_ci
+    url: jdbc:mysql://localhost:3306/tweetguessdb?useSSL=false&useUnicode=yes&character_set_client=utf8mb4&character_set_connection=utf8mb4&character_set_results=utf8mb4&collation_connection=utf8mb4_general_ci
     username: tweetguess
     password: tweetguess
     driverClassName: com.mysql.jdbc.Driver
@@ -33,8 +33,7 @@ twitter:
 
 tweetguess:
   languageList:
-    - tr
-    - en
+    - fr
 
 # ===============================
 # = DEVELOPMENT
