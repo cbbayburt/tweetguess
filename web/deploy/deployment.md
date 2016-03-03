@@ -128,6 +128,25 @@
     mysql -u tweetguess -p < db/tables_create.sql
 
 
+## Deploying tweetguess services before Ubuntu 15.04 ##
+
+* Enable init.d service with creating symlink
+
+        sudo ln -s /home/tweetguess/web/tweetguess.war /etc/init.d/tweetguess
+
+* Running services
+
+        sudo /etc/init.d/tweetguess start
+
+* To be able to run automatically after reboot
+
+        update-rc.d tweetguess defaults
+    
+* Uninstalling services
+    
+        update-rc.d -f tweetguess remove
+
+
 ## Deploying tweetguess services for Ubuntu 15.04 or later ##
 
 ** Installing systemd services: **
@@ -154,7 +173,7 @@
 
         sudo service tweetguess start
 
-* Uninstalling Services #
+* Uninstalling Services
     
         sudo service tweetguess stop
         sudo systemctl disable tweetguess.service
