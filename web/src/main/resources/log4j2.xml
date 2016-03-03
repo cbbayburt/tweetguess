@@ -50,6 +50,7 @@
         <Logger name="ASPECT_LOGGER" level="debug">
             <AppenderRef ref="ASPECT_LOGGER" />
         </Logger>
+        <Logger name="com.dedeler.tweetguess" level="info" />
         <Logger name="org" level="info" />
     </Loggers>
 </Configuration>
