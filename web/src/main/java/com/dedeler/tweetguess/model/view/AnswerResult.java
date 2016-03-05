@@ -1,4 +1,4 @@
-package com.dedeler.tweetguess.model;
+package com.dedeler.tweetguess.model.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

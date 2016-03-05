@@ -1,5 +1,7 @@
-package com.dedeler.tweetguess.model;
+package com.dedeler.tweetguess.model.view;
 
+import com.dedeler.tweetguess.model.Category;
+import com.dedeler.tweetguess.model.Language;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

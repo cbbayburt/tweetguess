@@ -2,6 +2,7 @@ package com.dedeler.tweetguess.controller;
 
 import com.dedeler.tweetguess.config.LocaleCollection;
 import com.dedeler.tweetguess.model.*;
+import com.dedeler.tweetguess.model.view.*;
 import com.dedeler.tweetguess.service.CategoryService;
 import com.dedeler.tweetguess.service.GameService;
 import com.dedeler.tweetguess.service.LanguageService;

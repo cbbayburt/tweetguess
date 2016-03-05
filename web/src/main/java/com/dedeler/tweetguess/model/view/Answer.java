@@ -1,4 +1,4 @@
-package com.dedeler.tweetguess.model;
+package com.dedeler.tweetguess.model.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPreferences {
-    User user;
-    GamePreferences preferences;
+public class Answer {
+    private Integer choice;
 }

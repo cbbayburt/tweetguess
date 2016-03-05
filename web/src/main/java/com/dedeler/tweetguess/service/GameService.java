@@ -1,6 +1,9 @@
 package com.dedeler.tweetguess.service;
 
 import com.dedeler.tweetguess.model.*;
+import com.dedeler.tweetguess.model.view.GamePreferences;
+import com.dedeler.tweetguess.model.view.Leaderboard;
+import com.dedeler.tweetguess.model.view.Score;
 import com.dedeler.tweetguess.repository.GameRepository;
 import com.dedeler.tweetguess.repository.PersonRepository;
 import com.dedeler.tweetguess.repository.QuestionRepository;
