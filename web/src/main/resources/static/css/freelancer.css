@@ -595,3 +595,11 @@ body {
 .modal-body .btn {
     margin-bottom: 10px;
 }
+
+/* Modal scrollbar fix */
+body.modal-open {
+    padding-right: inherit !important;
+}
+.modal {
+    padding-right: 0 !important;
+}
