@@ -108,7 +108,7 @@ public class IndexController {
 
         Integer currentQuestionIndex = currentQuestion==null ? 0 : game.getQuestionList().indexOf(currentQuestion)+1;
 
-        if(currentQuestionIndex == QUESTIONS_PER_GAME) {
+        if(currentQuestionIndex.equals(QUESTIONS_PER_GAME)) {
             game.setEndTime(LocalDateTime.now());
             gameService.save(game);
             return null;
