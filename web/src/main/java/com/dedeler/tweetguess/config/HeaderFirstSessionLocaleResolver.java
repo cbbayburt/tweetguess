@@ -10,6 +10,13 @@ import java.util.Locale;
  */
 
 public class HeaderFirstSessionLocaleResolver extends SessionLocaleResolver {
+
+    private final LocaleCollection availableLocales;
+
+    public HeaderFirstSessionLocaleResolver(LocaleCollection availableLocales) {
+        this.availableLocales = availableLocales;
+    }
+
     /**
      * Tries to determine default locale from the request headers first.
      * If not found, sets the predetermined default locale.
@@ -19,7 +26,7 @@ public class HeaderFirstSessionLocaleResolver extends SessionLocaleResolver {
     @Override
     protected Locale determineDefaultLocale(HttpServletRequest request) {
         Locale defaultLocale = request.getLocale();
-        if(defaultLocale == null) {
+        if(defaultLocale == null || !availableLocales.contains(defaultLocale)) {
             defaultLocale = this.getDefaultLocale();
         }
 

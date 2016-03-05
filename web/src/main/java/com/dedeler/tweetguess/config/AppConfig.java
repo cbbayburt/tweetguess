@@ -25,7 +25,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public LocaleResolver localeResolver() {
-        AbstractLocaleResolver r = new HeaderFirstSessionLocaleResolver();
+        AbstractLocaleResolver r = new HeaderFirstSessionLocaleResolver(getAvailableLocales());
         r.setDefaultLocale(Locale.US);
         return r;
     }
