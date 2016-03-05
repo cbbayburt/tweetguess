@@ -1,15 +1,22 @@
-var app = angular.module('tweetguess', ['pascalprecht.translate']);
+var app = angular.module('tweetguess', []);
 
-app.controller('mainController', function ($scope, $timeout, $http, $anchorScroll, $interval, $location, $translate) {
+$(function () {
+  $.get('/language.json').done(function (data) {
+    // Set your constant provider
+    angular.module('tweetguess').constant('$lang', data);
+
+    // Bootstrap your angular app
+    angular.bootstrap(document, ['tweetguess']);
+  });
+});
+
+app.controller('mainController', function ($scope, $timeout, $http, $anchorScroll, $interval, $location, $lang) {
     $scope.view = 'index';
 
     $scope.user = {username: ''};
     $scope.prefs = {category: {slug: null, name: null}, lang: {code: 'en', name: 'English'}};
-    //$scope.locale = {id: '', name: ''}
     $scope.timer = {progress: 0, live: undefined, max: 30000};
     $scope.constants = {numQuestions: 10};
-
-    //$translate.use($scope.locale.id);
 
     $scope.home = function() {
         $scope.removeUnloadEvent();
@@ -22,7 +29,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
             return;
         }
         $scope.stopTimer();
-        $scope.loadTitle = "LOAD_CATEGORIES";
+        $scope.loadTitle = $lang['load_categories'];
         $scope.view = 'loading';
         $anchorScroll('page-top');
 
@@ -41,7 +48,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
 
     $scope.selectRegion = function(region) {
         $scope.prefs.lang = region;
-        $scope.loadTitle = 'LOAD_CATEGORIES';
+        $scope.loadTitle = $lang['load_categories'];
         $scope.view = 'loading';
         $http.post('selectregion', region).then(function(res) {
             $scope.categories = res.data;
@@ -51,7 +58,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.selectCategory = function (category) {
-        $scope.loadTitle = "LOAD_GAME";
+        $scope.loadTitle = $lang['load_game'];
         $scope.view = 'loading';
         $anchorScroll('page-top');
 
@@ -64,9 +71,9 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         if ($scope.question) {
             $scope.question.loading = true;
             if ($scope.question.index == $scope.constants.numQuestions - 1)
-                $scope.question.title = "QUESTION_SAVE";
+                $scope.question.title = $lang['question_save'];
             else
-                $scope.question.title = "QUESTION_NEXT";
+                $scope.question.title = $lang['question_next'];
             $scope.question.score = 0;
         }
         $http.post('getquestion', $scope.prefs).then(function (res) {
@@ -76,7 +83,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
                 return;
             }
             $scope.question = res.data;
-            $scope.question.title = "QUESTION_IDLE";
+            $scope.question.title = $lang['question_idle'];
             $scope.question.loading = false;
             $scope.question.answered = false;
             $scope.choices = ['', '', '', ''];
@@ -92,10 +99,10 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         $scope.question.wait = true;
         $scope.stopTimer();
         if (choice >= 0) {
-            $scope.question.title = "QUESTION_CHECK";
+            $scope.question.title = $lang['question_check'];
             $http.post('answer', {choice: choice}).then(function (res) {
                 if(res.data == '') {
-                    $scope.question.title = "QUESTION_TIMEOUT";
+                    $scope.question.title = $lang['question_timeout'];
                     $timeout(function () {
                         $scope.getQuestion();
                     }, 2000);
@@ -104,9 +111,9 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
                 $scope.question.wait = false;
                 if (res.data.userChoice == res.data.correctChoice) {
                     $scope.question.score = res.data.score > 0 ? res.data.score : 0;
-                    $scope.question.title = "QUESTION_CORRECT";
+                    $scope.question.title = $lang['question_correct'];
                 } else {
-                    $scope.question.title = "QUESTION_WRONG";
+                    $scope.question.title = $lang['question_wrong'];
                 }
                 $anchorScroll('page-top');
                 $scope.choices[res.data.userChoice] = 'false';
@@ -117,7 +124,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
                 }, 2000);
             });
         } else {
-            $scope.question.title = "QUESTION_TIMEOUT";
+            $scope.question.title = $lang['question_timeout'];
             $timeout(function () {
                 $scope.getQuestion();
             }, 2000);
@@ -128,7 +135,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         $scope.stopTimer();
         $scope.removeUnloadEvent();
         $scope.view = 'loading';
-        $scope.loadTitle = "LOAD_LEADERBOARD";
+        $scope.loadTitle = $lang['load_leaderboard'];
         $http.get('leaderboard').then(function (res) {
             $scope.leaderboard = res.data;
             $scope.view = 'leaderboard';

@@ -1,5 +1,5 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layouts/default" data-ng-app="tweetguess">
+      layout:decorator="layouts/default">
 <body id="page-top" class="index" data-ng-controller="mainController">
 <!-- Header -->
 <th:block layout:fragment="content">
@@ -11,15 +11,6 @@
     <script type="text/ng-template" id="category" th:include="partial/category :: content"></script>
     <script type="text/ng-template" id="index" th:include="partial/index :: content"></script>
     <script type="text/ng-template" id="leaderboard" th:include="partial/leaderboard :: content"></script>
-    <script th:inline="javascript">
-        app.config(['$translateProvider', function($translateProvider) {
-            $translateProvider.useStaticFilesLoader({
-            prefix: '/locale/',
-            suffix: '.json'
-            });
-            $translateProvider.preferredLanguage([[${#locale.toString()}]]);
-        }]);
-    </script>
 
     <div class="portfolio-modal modal fade" id="regionModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">

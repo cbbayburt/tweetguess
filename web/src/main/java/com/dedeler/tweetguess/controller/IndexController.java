@@ -1,6 +1,7 @@
 package com.dedeler.tweetguess.controller;
 
 import com.dedeler.tweetguess.config.LocaleCollection;
+import com.dedeler.tweetguess.config.SerializableResourceBundleMessageSource;
 import com.dedeler.tweetguess.model.*;
 import com.dedeler.tweetguess.model.view.*;
 import com.dedeler.tweetguess.service.CategoryService;
@@ -9,7 +10,7 @@ import com.dedeler.tweetguess.service.LanguageService;
 import com.dedeler.tweetguess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -18,10 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Can Bulut Bayburt
@@ -29,6 +27,8 @@ import java.util.Map;
 @SessionAttributes(types = {User.class, Game.class})
 @Controller
 public class IndexController {
+
+    private Map<String, String> availableLocales;
 
     @Autowired
     private GameService gameService;
@@ -46,7 +46,7 @@ public class IndexController {
     private LocaleCollection localeCollection;
 
     @Autowired
-    private MessageSource messageSource;
+    private SerializableResourceBundleMessageSource messageSource;
 
     @Value("${tweetguess.questionPerGame}")
     private Integer QUESTIONS_PER_GAME;
@@ -139,6 +139,18 @@ public class IndexController {
         return new AnswerResult(answer.getChoice(), correct, score);
     }
 
+    @RequestMapping("/language.json")
+    @ResponseBody
+    public Properties language() {
+        Properties messages = new Properties();
+        for(Map.Entry<Object, Object> prop : messageSource.getAllProperties(LocaleContextHolder.getLocale()).entrySet()) {
+            if(prop.getKey().toString().startsWith("json."))
+                messages.put(prop.getKey().toString().substring(5), prop.getValue());
+        }
+
+        return messages;
+    }
+
     private int calculateScore(long time) {
         return (int)(QUESTION_MAX_SCORE - (time * QUESTION_MAX_SCORE / QUESTION_TIME_LIMIT_MILLIS));
     }
@@ -150,12 +162,14 @@ public class IndexController {
     }
 
     private Map<String, String> getLanguages() {
-        Map<String, String> map = new HashMap<>();
-        for(Locale l : localeCollection) {
-            map.put(l.toString(), messageSource.getMessage("lang", null, l));
+        if(availableLocales == null) {
+            availableLocales = new HashMap<>();
+            for (Locale l : localeCollection) {
+                availableLocales.put(l.toString(), messageSource.getMessage("lang", null, l));
+            }
         }
 
-        return map;
+        return availableLocales;
     }
 
 }

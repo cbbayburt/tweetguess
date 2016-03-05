@@ -1,10 +1,9 @@
 package com.dedeler.tweetguess.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -20,8 +19,6 @@ import java.util.Map;
 
 @Configuration
 public class AppConfig extends WebMvcConfigurerAdapter {
-    @Autowired
-    MessageSource messageSource;
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -35,7 +32,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         Map<String, Locale> availableLocales = new HashMap<>();
         for (Locale locale : Locale.getAvailableLocales()) {
             try {
-                String msg = messageSource.getMessage("locale", null, locale);
+                String msg = messageSource().getMessage("locale", null, locale);
                 if (!"default".equals(msg))
                     availableLocales.put(locale.toString(), locale);
             } catch (NoSuchMessageException ignored) {
@@ -43,6 +40,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         }
 
         return new LocaleCollection(availableLocales.values());
+    }
+
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource ms = new SerializableResourceBundleMessageSource();
+        ms.setBasename("classpath:/i18n/messages");
+        ms.setDefaultEncoding("UTF-8");
+        ms.setFallbackToSystemLocale(false);
+        return ms;
     }
 
     @Bean
