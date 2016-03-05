@@ -99,10 +99,7 @@
 
 ## MySql character set configuration ##
 
-* APPEND FILE: /etc/mysql/my.cnf
-
-        !includedir /etc/mysql/conf.d/
-        !includedir /etc/mysql/mysql.conf.d/
+* APPEND FILE: /etc/mysql/my.cnf (on Windows -> C:/ProgramData/MySQL/MySQL Server 5.7/my.ini)
 
         [client]
         default-character-set=utf8
@@ -111,9 +108,8 @@
         default-character-set=utf8
 
         [mysqld]
-        collation-server=utf8mb4_general_ci
-        init-connect='SET NAMES utf8mb4'
         character-set-server=utf8mb4
+        collation-server=utf8mb4_general_ci
 
 * Then restart the server
 
