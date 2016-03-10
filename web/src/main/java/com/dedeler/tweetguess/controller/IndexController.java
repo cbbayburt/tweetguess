@@ -78,12 +78,12 @@ public class IndexController {
 
     @RequestMapping("/initprefs")
     @ResponseBody
-    public List<LangCategories> initPreferences(@RequestBody UserPreferences userPrefs, Model model) {
-        if(StringUtils.isBlank(userPrefs.getUser().getUsername()))
+    public List<LangCategories> initPreferences(@RequestBody User user, Model model) {
+        if(StringUtils.isBlank(user.getUsername()))
             throw new UnauthorizedException();
 
-        userService.save(userPrefs.getUser());
-        model.addAttribute(userPrefs.getUser());
+        userService.save(user);
+        model.addAttribute(user);
         model.addAttribute(new Game());
 
         List<Category> categoryList = categoryService.getAll();

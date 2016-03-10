@@ -33,7 +33,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         $scope.view = 'loading';
         $anchorScroll('page-top');
 
-        $http.post('initprefs', {user: $scope.user, preferences: $scope.prefs }).then(function (res) {
+        $http.post('initprefs', $scope.user).then(function (res) {
             $scope.view = 'category';
             $scope.showAllCats = false;
             $scope.langCatMap = res.data;
