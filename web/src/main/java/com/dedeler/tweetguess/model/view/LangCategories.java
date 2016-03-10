@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LangCategory {
+public class LangCategories {
+    Language language;
     List<Category> categories;
-    List<Language> languages;
 }

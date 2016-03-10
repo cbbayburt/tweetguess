@@ -1,7 +1,6 @@
 package com.dedeler.tweetguess.service;
 
 import com.dedeler.tweetguess.model.Category;
-import com.dedeler.tweetguess.model.Language;
 import com.dedeler.tweetguess.repository.CategoryRepository;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,8 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> getShuffledCategoriesByLang(Language language) {
-        List<Category> categoryList = categoryRepository.findByLanguage(language);
+    public List<Category> getAll() {
+        List<Category> categoryList = Lists.newArrayList(categoryRepository.findAll());
         Collections.shuffle(categoryList);
         return categoryList;
     }

@@ -27,8 +27,8 @@
                             <h2 th:text="#{modals.selectregion}">Select Region</h2>
                             <hr class="star-primary"/>
                             <div class="row">
-                                <div data-ng-repeat="l in regions" class="col-xs-6 col-sm-4">
-                                    <button class="btn btn-lg btn-info btn-block" data-ng-click="selectRegion(l)" data-dismiss="modal">{{l.name}}</button>
+                                <div data-ng-repeat="l in langCatMap" class="col-xs-6 col-sm-4">
+                                    <button class="btn btn-lg btn-info btn-block" data-ng-click="selectRegion(l)" data-dismiss="modal">{{l.language.name}}</button>
                                 </div>
                             </div>
                         </div>

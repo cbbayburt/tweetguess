@@ -14,7 +14,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     $scope.view = 'index';
 
     $scope.user = {username: ''};
-    $scope.prefs = {category: {slug: null, name: null}, lang: {code: 'en', name: 'English'}};
+    $scope.prefs = {category: {slug: null, name: null}, lang: {code:'en', name:'English'}};
     $scope.timer = {progress: 0, live: undefined, max: 30000};
     $scope.constants = {numQuestions: 10};
 
@@ -33,11 +33,16 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
         $scope.view = 'loading';
         $anchorScroll('page-top');
 
-        $http.post('initgame', {user: $scope.user, preferences: $scope.prefs }).then(function (res) {
+        $http.post('initprefs', {user: $scope.user, preferences: $scope.prefs }).then(function (res) {
             $scope.view = 'category';
             $scope.showAllCats = false;
-            $scope.categories = res.data.categories;
-            $scope.regions = res.data.languages;
+            $scope.langCatMap = res.data;
+            for(var i=0; i<$scope.langCatMap.length; i++) {
+                if($scope.langCatMap[i].language.code === $scope.prefs.lang.code) {
+                    $scope.categories = $scope.langCatMap[i].categories;
+                    break;
+                }
+            }
             $anchorScroll('page-top');
         });
     };
@@ -47,15 +52,17 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     };
 
     $scope.selectRegion = function(region) {
-        $scope.prefs.lang = region;
+        $scope.prefs.lang = region.language;
         $scope.loadTitle = $lang['load_categories'];
         $scope.view = 'loading';
-        $http.post('selectregion', region).then(function(res) {
-            $scope.categories = res.data;
-            $scope.showAllCats = false;
-            $scope.view = 'category';
-        });
+        $scope.categories = region.categories;
+        $scope.showAllCats = false;
+        $scope.view = 'category';
     };
+
+    function loadCategories() {
+
+    }
 
     $scope.selectCategory = function (category) {
         $scope.loadTitle = $lang['load_game'];

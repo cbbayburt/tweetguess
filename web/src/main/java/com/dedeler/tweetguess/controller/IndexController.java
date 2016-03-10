@@ -8,18 +8,18 @@ import com.dedeler.tweetguess.service.CategoryService;
 import com.dedeler.tweetguess.service.GameService;
 import com.dedeler.tweetguess.service.LanguageService;
 import com.dedeler.tweetguess.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Can Bulut Bayburt
@@ -76,23 +76,24 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping("/initgame")
+    @RequestMapping("/initprefs")
     @ResponseBody
-    public LangCategory initGame(@RequestBody UserPreferences userPrefs, Model model, HttpServletRequest request) {
-        if(StringUtils.isEmpty(userPrefs.getUser().getUsername()))
+    public List<LangCategories> initPreferences(@RequestBody UserPreferences userPrefs, Model model) {
+        if(StringUtils.isBlank(userPrefs.getUser().getUsername()))
             throw new UnauthorizedException();
 
         userService.save(userPrefs.getUser());
         model.addAttribute(userPrefs.getUser());
         model.addAttribute(new Game());
 
-        return new LangCategory(categoryService.getShuffledCategoriesByLang(userPrefs.getPreferences().getLang()), languageService.getLanguagesOrderByName());
-    }
+        List<Category> categoryList = categoryService.getAll();
+        List<Language> languageList = languageService.getLanguagesOrderByName();
+        List<LangCategories> langCategories = languageList.stream().map(l -> new LangCategories(l, categoryList.parallelStream().
+                    filter(c -> c.getLanguageId().equals(l.getCode()))
+                    .collect(Collectors.toList())))
+                .collect(Collectors.toList());
 
-    @RequestMapping("/selectregion")
-    @ResponseBody
-    public List<Category> selectRegion(@RequestBody Language lang, Model model) {
-        return categoryService.getShuffledCategoriesByLang(lang);
+        return langCategories;
     }
 
     @RequestMapping("/getquestion")
@@ -143,10 +144,9 @@ public class IndexController {
     @ResponseBody
     public Properties language() {
         Properties messages = new Properties();
-        for(Map.Entry<Object, Object> prop : messageSource.getAllProperties(LocaleContextHolder.getLocale()).entrySet()) {
-            if(prop.getKey().toString().startsWith("json."))
-                messages.put(prop.getKey().toString().substring(5), prop.getValue());
-        }
+        messageSource.getAllProperties(LocaleContextHolder.getLocale()).entrySet().parallelStream()
+                .filter(p -> p.getKey().toString().startsWith("json."))
+                .forEach(p -> messages.put(p.getKey().toString().substring(5), p.getValue()));
 
         return messages;
     }

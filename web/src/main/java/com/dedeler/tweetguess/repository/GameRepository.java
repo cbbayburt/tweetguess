@@ -1,7 +1,6 @@
 package com.dedeler.tweetguess.repository;
 
 import com.dedeler.tweetguess.model.Game;
-import com.dedeler.tweetguess.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
