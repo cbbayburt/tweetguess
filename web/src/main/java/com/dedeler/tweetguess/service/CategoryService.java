@@ -4,6 +4,7 @@ import com.dedeler.tweetguess.model.Category;
 import com.dedeler.tweetguess.repository.CategoryRepository;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -18,8 +19,11 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public List<Category> getAll() {
-        List<Category> categoryList = Lists.newArrayList(categoryRepository.findAll());
+    @Value("${tweetguess.choiceListSize}")
+    private Integer CHOICE_LIST_SIZE;
+
+    public List<Category> getAvailableCategories() {
+        List<Category> categoryList = Lists.newArrayList(categoryRepository.findBySizeGreaterThanEqual(CHOICE_LIST_SIZE));
         Collections.shuffle(categoryList);
         return categoryList;
     }

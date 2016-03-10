@@ -86,7 +86,7 @@ public class IndexController {
         model.addAttribute(user);
         model.addAttribute(new Game());
 
-        List<Category> categoryList = categoryService.getAll();
+        List<Category> categoryList = categoryService.getAvailableCategories();
         List<Language> languageList = languageService.getLanguagesOrderByName();
         List<LangCategories> langCategories = languageList.stream().map(l -> new LangCategories(l, categoryList.parallelStream().
                     filter(c -> c.getLanguageId().equals(l.getCode()))
