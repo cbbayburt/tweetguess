@@ -16,6 +16,8 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
 
     List<Person> findByCategory(Category category);
 
+    //Used in batch application
+    @SuppressWarnings("unused")
     @Query("select p from Person p JOIN FETCH p.category where p.id = ?1")
     Person findOneFullLoad(Long id);
 
