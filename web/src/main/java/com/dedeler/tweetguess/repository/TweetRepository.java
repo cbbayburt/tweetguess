@@ -13,8 +13,7 @@ import java.util.List;
 @Repository
 public interface TweetRepository extends CrudRepository<Tweet, Long> {
 
-    @Query(value = "select count(*) from tweet t inner join person p on t.person_id = p.id inner join category_person_lk cplk on p.id = cplk.person_id " +
-            "inner join category g on cplk.language_id = g.language_id and cplk.slug = g.slug where g.slug = ?1 and g.language_id = ?2 and t.valid = ?3", nativeQuery = true)
+    @Query(value = "select count(*) from Tweet t inner join t.person p inner join p.category c where c.slug = ?1 and c.languageId = ?2 and t.valid = ?3")
     Integer getTweetCountByCategoryAndValid(String slug, String language, Boolean valid);
 
     @Query(value = "select * from (select @rowid\\:=@rowid+1 as row_num, t.* from tweet t inner join person p on t.person_id = p.id " +
