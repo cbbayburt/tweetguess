@@ -1,9 +1,11 @@
 package com.dedeler.tweetguess.config;
 
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -18,6 +20,7 @@ import java.util.Map;
  */
 
 @Configuration
+@EntityScan(basePackages = {"com.dedeler.tweetguess.model"}, basePackageClasses = {Jsr310JpaConverters.class})
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
