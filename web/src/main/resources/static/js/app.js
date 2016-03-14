@@ -19,6 +19,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     $scope.constants = {numQuestions: 10};
 
     $scope.home = function() {
+        $scope.stopTimer();
         $scope.removeUnloadEvent();
         $scope.view = 'index';
     };
