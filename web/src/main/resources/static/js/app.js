@@ -14,7 +14,7 @@ app.controller('mainController', function ($scope, $timeout, $http, $anchorScrol
     $scope.view = 'index';
 
     $scope.user = {username: ''};
-    $scope.prefs = {category: {slug: null, name: null}, lang: {code:'en', name:'English'}};
+    $scope.prefs = {category: {slug: null, name: null}, lang: {code:$lang['lang_code'], name:$lang['lang_name']}};
     $scope.timer = {progress: 0, live: undefined, max: 30000};
     $scope.constants = {numQuestions: 10};
 
