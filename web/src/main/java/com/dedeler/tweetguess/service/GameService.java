@@ -89,11 +89,12 @@ public class GameService {
         Integer leaderBoardSize = Math.min(LEADERBOARD_SIZE, weeklyScoreList.size());
         List<Score> scores = new ArrayList<>();
         boolean isUserOnTopList = false;
+        boolean isUserLoggedIn = currentUser != null && StringUtils.isNotBlank(currentUser.getUsername());
         for(int i = 0; i < leaderBoardSize; i++) {
             Object[] userScoreInfo = weeklyScoreList.get(i);
 
             String username = ((User) userScoreInfo[0]).getUsername();
-            boolean isCurrentUser = currentUser != null && currentUser.getUsername().equals(username);
+            boolean isCurrentUser = isUserLoggedIn && currentUser.getUsername().equals(username);
             if(isCurrentUser && !isUserOnTopList) {
                 isUserOnTopList = true;
             }
@@ -102,7 +103,7 @@ public class GameService {
             scores.add(score);
         }
 
-        if(!isUserOnTopList && currentUser!=null && StringUtils.isNotBlank(currentUser.getUsername())) {
+        if(isUserLoggedIn && !isUserOnTopList) {
             for(int i = LEADERBOARD_SIZE; i < weeklyScoreList.size(); i++) {
                 Object[] userScoreInfo = weeklyScoreList.get(i);
                 if(currentUser.getUsername().equals(((User) userScoreInfo[0]).getUsername())) {
